@@ -1,0 +1,36 @@
+@import '../../constants/styles';
+@import '../../constants/modal';
+
+.MessageModal {
+  @extend %modal;
+  
+  &.open {
+    opacity: 1;
+    transition: opacity 1s 2s;
+  }
+
+  &.closed {
+    opacity: 0;
+  }
+
+  .container {
+    @extend %modal-shared-container-style;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .message-wrapper {
+    max-width: 550px;
+    background: #ededed;
+    overflow: hidden;
+  }
+
+  .message {
+    position: relative;
+    min-height: 30px;
+    overflow: hidden;
+  }
+}
