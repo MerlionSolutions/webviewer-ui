@@ -57,6 +57,28 @@ export default initialState => (state = initialState, action) => {
         ...state,
         openElements: { ...state.openElements, [payload.dataElement]: true },
       };
+
+    case 'HIDE_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: { 
+          ...state.openElements,
+          messageModal: false
+        },
+        message: ''
+      };
+      
+    case 'OPEN_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: { 
+          ...state.openElements,
+          messageModal: true
+        },
+        message: payload.message
+      };
+
+
     case 'CLOSE_ELEMENT':
       return {
         ...state,

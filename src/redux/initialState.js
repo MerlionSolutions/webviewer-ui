@@ -13,8 +13,11 @@ import actions from 'actions';
 export default {
   viewer: {
     disabledElements: {},
+    message: '',
     openElements: {
       header: true,
+      progressModal: false,
+      messageModal: false,
     },
     headers: {
       default: [

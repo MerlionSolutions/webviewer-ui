@@ -6,13 +6,15 @@ import selectors from 'selectors';
 
 import './MessageModal.scss';
 
-const ProgressModal = () => {
+const MessageModal = () => {
   const [isDisabled, isOpen, message] = useSelector(
-    state => [
-      selectors.isElementDisabled(state, 'messageModal'),
-      selectors.isElementOpen(state, 'messageModal'),
-      selectors.getModalMessage(state),
-    ],
+    state => {
+      return [
+        selectors.isElementDisabled(state, 'messageModal'),
+        selectors.isElementOpen(state, 'messageModal'),
+        selectors.getModalMessage(state),
+      ];
+    },
     shallowEqual,
   );
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ const ProgressModal = () => {
           <div
             className="message"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi itaque quam esse ab blanditiis provident asperiores officia, natus fugiat in quaerat ratione, eveniet est aperiam eum vero facere explicabo tempora.
+            {message}
           </div>
         </div>
       </div>
@@ -54,4 +56,4 @@ const ProgressModal = () => {
   );
 };
 
-export default ProgressModal;
+export default MessageModal;

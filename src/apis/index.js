@@ -110,6 +110,8 @@ import setTheme from './setTheme';
 import setToolMode from './setToolMode';
 import setZoomLevel from './setZoomLevel';
 import setZoomList from './setZoomList';
+
+import showMessage from './showMessage';
 import showErrorMessage from './showErrorMessage';
 import showWarningMessage from './showWarningMessage';
 import textPopup from './textPopup';
@@ -127,6 +129,7 @@ import setSignatureFonts from './setSignatureFonts';
 import disableReplyForAnnotations from './disableReplyForAnnotations';
 import getCustomData from './getCustomData';
 import setCustomMeasurementOverlayInfo from './setCustomMeasurementOverlayInfo';
+import hideMessage from './hideMessage';
 
 export default store => {
   window.readerControl = {
@@ -187,7 +190,12 @@ export default store => {
     setToolMode: setToolMode(store),
     setZoomLevel,
     setZoomList: setZoomList(store),
+
+    showMessage: showMessage(store),
+    hideMessage: hideMessage(store),
+    
     showErrorMessage: showErrorMessage(store),
+
     textPopup: textPopup(store),
     toggleElement: toggleElement(store),
     toggleFullScreen,
