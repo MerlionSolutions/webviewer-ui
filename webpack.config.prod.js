@@ -1,11 +1,13 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WebpackShellPlugin = require('webpack-shell-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: path.resolve(__dirname, 'src'),
+  devtool: 'cheap-module-eval-source-map',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'webviewer-ui.min.js',
@@ -33,6 +35,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
+    new WebpackShellPlugin({
+      onBuildEnd: 'node ./scripts/copy-to-dir.js'
+    })
     // new BundleAnalyzerPlugin()
   ],
   module: {

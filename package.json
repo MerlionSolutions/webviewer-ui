@@ -13,6 +13,7 @@
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint --fix ./src/**/*.js",
     "clean": "rimraf build",
+    "bundle:watch": "webpack --progress --config ./webpack.config.prod.js --watch",
     "bundle": "webpack --progress --config ./webpack.config.prod.js",
     "build": "npm run clean && npm run bundle",
     "translation": "node ./scripts/translate-i18n-files.js"
@@ -69,6 +70,7 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-react": "^7.18.0",
     "eslint-plugin-react-hooks": "^2.3.0",
+    "fs-extra": "^8.1.0",
     "express": "^4.17.1",
     "ip": "^1.1.5",
     "mini-css-extract-plugin": "0.8.0",
@@ -86,6 +88,7 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }
