@@ -40,14 +40,15 @@ app.get('/sample-url', (req, res) => {
   );
 });
 
-app.listen(3000, '0.0.0.0', err => {
+const port = process.env.PORT || 4444;
+app.listen(port, '0.0.0.0', err => {
   if (err) {
     console.error(err);
   } else {
     // eslint-disable-next-line
-    console.info(`Listening at localhost:3000 (http://${ip.address()}:3000)`);
-    opn(
-      'http://localhost:3000/#d=https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf&a=1',
+    console.info(`Listening at localhost:${port} (http://${ip.address()}:${port})`);
+    console.info(
+      `goto: http://localhost:${port}/#d=https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf&a=1`
     );
   }
 });
