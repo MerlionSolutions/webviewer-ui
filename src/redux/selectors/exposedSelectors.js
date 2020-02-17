@@ -170,6 +170,7 @@ export const getBookmarks = state => state.document.bookmarks;
 export const getLayers = state => state.document.layers;
 
 export const getLoadingProgress = state => state.document.loadingProgress;
+export const getModalMessage = state => state.viewer.message;
 
 // user
 export const getUserName = state => state.user.name;

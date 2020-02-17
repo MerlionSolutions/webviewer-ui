@@ -40,6 +40,7 @@ export const openElement = dataElement => (dispatch, getState) => {
     }
   }
 };
+
 export const openElements = dataElements => dispatch => {
   if (typeof dataElements === 'string') {
     dispatch(openElement(dataElements));
@@ -49,6 +50,20 @@ export const openElements = dataElements => dispatch => {
     });
   }
 };
+
+export const hideMessageModal = () => dispatch => {
+  dispatch({
+    type: 'HIDE_MESSAGE_MODAL',
+  });
+};
+export const showMessageModal = message => dispatch => {
+  dispatch({
+    type: 'OPEN_MESSAGE_MODAL',
+    payload: { message }
+  });
+};
+
+
 export const closeElement = dataElement => (dispatch, getState) => {
   const state = getState();
 

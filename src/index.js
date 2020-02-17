@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
@@ -35,8 +35,9 @@ if (process.env.NODE_ENV === 'development') {
     middleware.push(createLogger({ collapsed: true }));
   }
 }
-
-const store = createStore(rootReducer, applyMiddleware(...middleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
+window.actions = actions;
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('reducers/rootReducer', () => {
@@ -141,6 +142,8 @@ if (window.CanvasRenderingContext2D) {
     setupLoadAnnotationsFromServer(store);
     setDefaultToolStyles();
     core.setToolMode(defaultTool);
+
+
 
     ReactDOM.render(
       <Provider store={store}>

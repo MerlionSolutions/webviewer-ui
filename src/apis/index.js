@@ -110,6 +110,8 @@ import setTheme from './setTheme';
 import setToolMode from './setToolMode';
 import setZoomLevel from './setZoomLevel';
 import setZoomList from './setZoomList';
+
+import showMessage from './showMessage';
 import showErrorMessage from './showErrorMessage';
 import showWarningMessage from './showWarningMessage';
 import textPopup from './textPopup';
@@ -130,6 +132,7 @@ import setCustomMeasurementOverlayInfo from './setCustomMeasurementOverlayInfo';
 import setNoteTransformFunction from './setNoteTransformFunction';
 import selectThumbnailPages from './selectThumbnailPages';
 import unselectThumbnailPages from './unselectThumbnailPages';
+import hideMessage from './hideMessage';
 
 export default store => {
   window.readerControl = {
@@ -191,7 +194,12 @@ export default store => {
     setToolMode: setToolMode(store),
     setZoomLevel,
     setZoomList: setZoomList(store),
+
+    showMessage: showMessage(store),
+    hideMessage: hideMessage(store),
+    
     showErrorMessage: showErrorMessage(store),
+
     textPopup: textPopup(store),
     toggleElement: toggleElement(store),
     toggleFullScreen,
