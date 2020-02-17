@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
+import _ from 'lodash';
 
 import ActionButton from 'components/ActionButton';
 
@@ -23,8 +24,10 @@ class SignatureOverlay extends React.PureComponent {
     closeElements: PropTypes.func.isRequired,
     closeElement: PropTypes.func.isRequired,
     openElement: PropTypes.func.isRequired,
+    openSignatureModal: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     maxSignaturesCount: PropTypes.number.isRequired,
+    maxInitialsCount: PropTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -113,10 +116,7 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureSaved = async annotations => {
-    const numberOfSignaturesToRemove =
-      this.state.defaultSignatures.length +
-      annotations.length -
-      this.props.maxSignaturesCount;
+    const numberOfSignaturesToRemove = this.state.defaultSignatures.length + annotations.length - (this.props.maxSignaturesCount + this.props.maxInitialsCount);
     const defaultSignatures = [...this.state.defaultSignatures];
 
     if (numberOfSignaturesToRemove > 0) {
@@ -230,20 +230,41 @@ class SignatureOverlay extends React.PureComponent {
       closeElement('signatureOverlay');
     }
   };
+  openSignatureModal = () => {
+    const { defaultSignatures } = this.state;
+    const { openSignatureModal, maxSignaturesCount } = this.props;
 
+    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'signature');
+    if (sigs.length < maxSignaturesCount) {
+      openSignatureModal('signature');
+    }
+  };
+  openInitialsModal = () => {
+    const { defaultSignatures } = this.state;
+    const { openSignatureModal, maxInitialsCount } = this.props;
+    
+    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'initials');
+    if (sigs.length < maxInitialsCount) {
+      openSignatureModal('initials');
+    }
+  };
   render() {
     const { left, right, defaultSignatures } = this.state;
-    const { t, isDisabled, maxSignaturesCount } = this.props;
+    const { t, isDisabled, maxSignaturesCount, maxInitialsCount } = this.props;
     const className = getClassName('Overlay SignatureOverlay', this.props);
 
     if (isDisabled) {
       return null;
     }
 
+
+    const defSigs = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'signature');
+    const defInitials = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'initials');
+
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
         <div className="default-signatures-container">
-          {defaultSignatures.map(({ imgSrc }, index) => (
+          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'signature') ? undefined : (
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
@@ -260,13 +281,42 @@ class SignatureOverlay extends React.PureComponent {
           ))}
           <div
             className={`add-signature${
-              defaultSignatures.length >= maxSignaturesCount
+              defSigs.length >= maxSignaturesCount
                 ? ' disabled'
                 : ' enabled'
             }`}
             onClick={this.openSignatureModal}
           >
             {t('option.signatureOverlay.addSignature')}
+          </div>
+
+
+
+
+          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'initials') ? undefined : (
+            <div className="default-signature" key={index}>
+              <div
+                className="signature-image"
+                onClick={() => this.setSignature(index)}
+              >
+                <img src={imgSrc} />
+              </div>
+              <ActionButton
+                dataElement="defaultSignatureDeleteButton"
+                img="ic_delete_black_24px"
+                onClick={() => this.deleteDefaultSignature(index)}
+              />
+            </div>
+          ))}
+          <div
+            className={`add-signature${
+              defInitials.length >= maxInitialsCount
+                ? ' disabled'
+                : ' enabled'
+            }`}
+            onClick={this.openInitialsModal}
+          >
+            Add Initials
           </div>
         </div>
       </div>
@@ -279,12 +329,14 @@ const mapStateToProps = state => ({
   isOpen: selectors.isElementOpen(state, 'signatureOverlay'),
   isSignatureModalOpen: selectors.isElementOpen(state, 'signatureModal'),
   maxSignaturesCount: selectors.getMaxSignaturesCount(state),
+  maxInitialsCount: selectors.getMaxInitialsCount(state),
 });
 
 const mapDispatchToProps = {
   closeElements: actions.closeElements,
   closeElement: actions.closeElement,
   openElement: actions.openElement,
+  openSignatureModal: actions.openSignatureModal
 };
 
 export default connect(

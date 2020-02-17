@@ -57,6 +57,28 @@ export default initialState => (state = initialState, action) => {
         ...state,
         openElements: { ...state.openElements, [payload.dataElement]: true },
       };
+      
+    case 'OPEN_SIGNATURE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements, 
+          signatureOverlay: false,
+          signatureModal: true
+        },
+        sigType: payload.type
+      };
+
+    case 'OPEN_SIGNATURE_OVERLAY':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements, 
+          signatureOverlay: true,
+          signatureModal: false
+        },
+        sigType: payload.type
+      };
 
     case 'HIDE_MESSAGE_MODAL':
       return {
