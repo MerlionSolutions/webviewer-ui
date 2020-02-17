@@ -119,6 +119,8 @@ export const getMeasurementUnits = state => state.viewer.measurementUnits;
 export const getIsNoteEditing = state => state.viewer.isNoteEditing;
 
 export const getMaxSignaturesCount = state => state.viewer.maxSignaturesCount;
+export const getMaxInitialsCount = state => state.viewer.maxInitialsCount;
+export const getSigType = state => state.viewer.sigType;
 
 export const getSignatureFonts = state => state.viewer.signatureFonts;
 

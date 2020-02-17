@@ -18,13 +18,17 @@ import selectors from 'selectors';
 import './SignatureModal.scss';
 
 const SignatureModal = () => {
-  const [isDisabled, isSaveSignatureDisabled, isOpen] = useSelector(state => [
+  const [isDisabled, isSaveSignatureDisabled, isOpen, sigType] = useSelector(state => [
     selectors.isElementDisabled(state, 'signatureModal'),
     selectors.isElementDisabled(state, 'saveSignatureButton'),
     selectors.isElementOpen(state, 'signatureModal'),
+    selectors.getSigType(state)
   ]);
+
+
+
   const dispatch = useDispatch();
-  const [saveSignature, setSaveSignature] = useState(false);
+  const [saveSignature, setSaveSignature] = useState(true);
   const [t] = useTranslation();
   const signatureTool = core.getTool('AnnotationCreateSignature');
 
@@ -64,6 +68,7 @@ const SignatureModal = () => {
   const createSignature = () => {
     if (!signatureTool.isEmptySignature()) {
       if (saveSignature) {
+        signatureTool.annot.setCustomData('type', sigType);
         signatureTool.saveSignatures(signatureTool.annot);
       }
       if (signatureTool.hasLocation()) {
@@ -147,12 +152,12 @@ const SignatureModal = () => {
                 onChange={toggleSaveSignature}
               />
               <label htmlFor="default-signature">
-                {t('option.signatureModal.saveSignature')}
+                {(sigType === 'signature') ? t('option.signatureModal.saveSignature') : 'Save Initials'}
               </label>
             </div>
           )}
           <div className="signature-create" onClick={createSignature}>
-            {t('action.create')}
+            {sigType === 'signature' ? 'Create Signature' : 'Create Initials'}
           </div>
         </div>
       </div>

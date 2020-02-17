@@ -41,6 +41,28 @@ export const openElement = dataElement => (dispatch, getState) => {
   }
 };
 
+export const setSigType = type => dispatch => dispatch({
+  type: 'SET_SIG_MODAL_TYPE',
+  payload: { type }
+});
+
+export const openSignatureModal = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_MODAL',
+    payload: { type }
+  });
+  // dispatch(openElement('signatureModal'));
+};
+
+export const openSignatureOverlay = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_OVERLAY',
+    payload: { type }
+  });
+  // dispatch(openElement('signatureModal'));
+};
+
+
 export const openElements = dataElements => dispatch => {
   if (typeof dataElements === 'string') {
     dispatch(openElement(dataElements));
