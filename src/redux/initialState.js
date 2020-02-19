@@ -14,6 +14,8 @@ export default {
   viewer: {
     disabledElements: {},
     message: '',
+    sigType: '',
+    clickedSigWidget: '',
     openElements: {
       header: true,
       progressModal: false,

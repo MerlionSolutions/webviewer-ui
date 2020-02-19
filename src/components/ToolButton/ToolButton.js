@@ -70,7 +70,10 @@ const ToolButton = ({ toolName, ...restProps }) => {
   let color = '';
 
   if (showColor === 'always' || (showColor === 'active' && isActive)) {
-    color = toolStyles[iconColor]?.toHexString?.();
+    if (toolStyles && toolStyles[iconColor]) {
+
+      color = toolStyles[iconColor]?.toHexString?.();
+    }
   }
 
   return (

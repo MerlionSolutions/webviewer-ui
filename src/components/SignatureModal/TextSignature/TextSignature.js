@@ -22,12 +22,31 @@ const TextSignature = ({
   _setSaveSignature,
   isTabPanelSelected,
 }) => {
-  const fonts = useSelector(state => selectors.getSignatureFonts(state));
+  const [fonts, clickedSigWidgetId] = useSelector(state => [
+    selectors.getSignatureFonts(state),
+    selectors.getClickedSigWidget(state)
+  ]);
+
   const [value, setValue] = useState(core.getCurrentUser());
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
+
+
+  useEffect(() => {
+    if (clickedSigWidgetId) {
+      const sigWidget = core.getAnnotationById(clickedSigWidgetId);
+      console.log('get clicked sig widget id', sigWidget);
+      if (sigWidget) {
+        const displayAuthor = core.getDisplayAuthor(sigWidget);
+        console.log('core.getDisplayAuthor', displayAuthor);
+        if (displayAuthor) {
+          setValue(displayAuthor);
+        }
+      }
+    }
+  }, [clickedSigWidgetId]);
 
   useEffect(() => {
     // this can happen when an user added a new signature font, select it and then removed it

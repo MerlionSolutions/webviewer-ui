@@ -79,6 +79,7 @@ import saveAnnotations from './saveAnnotations';
 import searchText from './searchText';
 import searchTextFull from './searchTextFull';
 import setActiveHeaderGroup from './setActiveHeaderGroup';
+import registerHeaderGroup from './registerHeaderGroup';
 import setActiveLeftPanel from './setActiveLeftPanel';
 import setAdminUser from './setAdminUser';
 import setAnnotationUser from './setAnnotationUser';
@@ -167,6 +168,7 @@ export default store => {
     searchText: searchText(store),
     searchTextFull: searchTextFull(store),
     setActiveHeaderGroup: setActiveHeaderGroup(store),
+    registerHeaderGroup: registerHeaderGroup(store),
     setActiveLeftPanel: setActiveLeftPanel(store),
     setCustomNoteFilter: setCustomNoteFilter(store),
     setCustomPanel: setCustomPanel(store),
@@ -175,6 +177,7 @@ export default store => {
     importBookmarks: importBookmarks(store),
     setFitMode,
     setHeaderItems: setHeaderItems(store),
+    
     setIconColor: setIconColor(store),
     setLanguage,
     setLayoutMode,
