@@ -147,6 +147,11 @@ export const setActiveHeaderGroup = headerGroup => ({
   type: 'SET_ACTIVE_HEADER_GROUP',
   payload: { headerGroup },
 });
+export const registerHeaderGroup = (headerGroup, items) => ({
+  type: 'REGISTER_HEADER_GROUP',
+  payload: { headerGroup, items },
+});
+
 export const setActiveLeftPanel = dataElement => (dispatch, getState) => {
   const state = getState();
 

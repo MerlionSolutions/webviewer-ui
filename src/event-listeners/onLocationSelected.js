@@ -54,6 +54,7 @@ export default store => async evt => {
       store.dispatch({
         type: 'OPEN_SIGNATURE_MODAL',
         payload: {
+          clickedSigWidget: (sigWig) ? sigWig.Id : null,
           type: sigwigType ? sigwigType : 'signature'
         }
       });

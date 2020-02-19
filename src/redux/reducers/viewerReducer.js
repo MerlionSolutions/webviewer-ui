@@ -58,6 +58,7 @@ export default initialState => (state = initialState, action) => {
         openElements: { ...state.openElements, [payload.dataElement]: true },
       };
       
+    
     case 'OPEN_SIGNATURE_MODAL':
       return {
         ...state,
@@ -66,7 +67,8 @@ export default initialState => (state = initialState, action) => {
           signatureOverlay: false,
           signatureModal: true
         },
-        sigType: payload.type
+        sigType: payload.type,
+        clickedSigWidget: payload.clickedSigWidget
       };
 
     case 'OPEN_SIGNATURE_OVERLAY':
@@ -80,6 +82,8 @@ export default initialState => (state = initialState, action) => {
         sigType: payload.type
       };
 
+   
+   
     case 'HIDE_MESSAGE_MODAL':
       return {
         ...state,
@@ -108,6 +112,18 @@ export default initialState => (state = initialState, action) => {
       };
     case 'SET_ACTIVE_HEADER_GROUP':
       return { ...state, activeHeaderGroup: payload.headerGroup };
+    
+    case 'REGISTER_HEADER_GROUP':
+      return {
+        ...state, 
+        headers: {
+          ...state.headers,
+          [payload.headerGroup]: payload.items
+        }
+      };
+
+
+
     case 'SET_ACTIVE_TOOL_NAME':
       return { ...state, activeToolName: payload.toolName };
     case 'SET_ACTIVE_TOOL_STYLES':

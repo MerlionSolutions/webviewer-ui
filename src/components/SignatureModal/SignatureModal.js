@@ -135,6 +135,15 @@ const SignatureModal = () => {
           </TabPanel>
         </Tabs>
 
+        <div className="footer">
+          <div>
+            <p>
+              By clicking Accept and Sign, I agree that the signature wil be the
+              electric representation of my signature for all purposes when I, for
+              my agenda, use them on documents. Including legally binding documents, just the same as pen and paper signatures.
+            </p>
+          </div>
+        </div>
         <div
           className="footer"
           style={{
@@ -157,7 +166,7 @@ const SignatureModal = () => {
             </div>
           )}
           <div className="signature-create" onClick={createSignature}>
-            {sigType === 'signature' ? 'Create Signature' : 'Create Initials'}
+            {sigType === 'signature' ? 'Accept and create signature' : 'Accept and create initials'}
           </div>
         </div>
       </div>
