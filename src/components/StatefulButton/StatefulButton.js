@@ -41,7 +41,9 @@ class StatefulButton extends React.PureComponent {
   componentDidMount() {
     const { mount } = this.props;
     if (mount) {
-      mount(this.update);
+      mount(this.update, {
+        getCurrentState: () => this.state.activeState
+      });
     }
   }
 
@@ -89,7 +91,8 @@ class StatefulButton extends React.PureComponent {
   render() {
     const { activeState } = this.state;
     const { states } = this.props;
-    const { title, img, getContent, isActive } = states[activeState];
+    console.log('state', { states, activeState });
+    const { title, img, getContent, isActive } = states[activeState] || {};
     const content = getContent ? getContent(states[activeState]) : '';
     const className = [
       'StatefulButton',
