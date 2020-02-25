@@ -136,7 +136,8 @@ import unselectThumbnailPages from './unselectThumbnailPages';
 import hideMessage from './hideMessage';
 
 export default store => {
-  window.readerControl = {
+  window.readerControl = window.instance = {
+    store,
     docViewer: window.docViewer,
     FitMode,
     LayoutMode,

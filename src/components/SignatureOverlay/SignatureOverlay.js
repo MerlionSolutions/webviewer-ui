@@ -116,6 +116,7 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureSaved = async annotations => {
+    console.log('onSignatureSaved');
     const numberOfSignaturesToRemove = this.state.defaultSignatures.length + annotations.length - (this.props.maxSignaturesCount + this.props.maxInitialsCount);
     const defaultSignatures = [...this.state.defaultSignatures];
 
@@ -135,6 +136,7 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureDeleted = async () => {
+    console.log('onSignatureDeleted');
     let savedSignatures = this.signatureTool.getSavedSignatures();
 
     // the saved signatures will have a different style than what we've saved in this component
