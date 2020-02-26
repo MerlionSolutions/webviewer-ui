@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import thunk from 'redux-thunk';
+import _ from 'lodash';
 
 import core from 'core';
 import actions from 'actions';
@@ -37,6 +38,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
 const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
+window._ = _;
 window.actions = actions;
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
