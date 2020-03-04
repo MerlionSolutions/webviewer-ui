@@ -60,7 +60,6 @@ const TextSignature = ({
     const signatureTool = core.getTool('AnnotationCreateSignature');
     const canvas = canvasRef.current;
     _setSaveSignature(!!value);
-
     if (value) {
       signatureTool.setSignature(canvas.toDataURL());
     } else {
@@ -79,10 +78,9 @@ const TextSignature = ({
       ].getBoundingClientRect();
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      canvas.width = width * multiplier;
-      canvas.height = height * multiplier;
+      canvas.width = (width * multiplier) + 50;
+      canvas.height = (height * multiplier) + 25;
     };
-
     const setFont = () => {
       ctx.fillStyle = '#000';
       ctx.textAlign = 'center';
