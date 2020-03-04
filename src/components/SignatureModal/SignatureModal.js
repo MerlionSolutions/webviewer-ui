@@ -138,9 +138,12 @@ const SignatureModal = () => {
         <div className="footer">
           <div>
             <p>
-              By clicking Accept and Sign, I agree that the signature wil be the
-              electric representation of my signature for all purposes when I, for
-              my agenda, use them on documents. Including legally binding documents, just the same as pen and paper signatures.
+              Customer agrees to all terms and conditions contained in the eNotaryLog <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+              the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+              and Communications which can be found for review on the eNotaryLog website.
+            </p> 
+            <p>
+              By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
             </p>
           </div>
         </div>
