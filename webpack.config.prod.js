@@ -3,6 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackShellPlugin = require('webpack-shell-plugin');
+const destDir = process.env.DEST_DIR;
 
 module.exports = {
   mode: 'production',
@@ -37,7 +38,7 @@ module.exports = {
     }),
     new WebpackShellPlugin({
       dev: false,
-      onBuildEnd: 'node ./scripts/copy-to-dir.js'
+      onBuildEnd: `node ./scripts/copy-to-dir.js ${destDir}`
     })
     // new BundleAnalyzerPlugin()
   ],
