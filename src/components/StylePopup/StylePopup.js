@@ -77,7 +77,7 @@ class StylePopup extends React.PureComponent {
     ];
 
     return [Opacity, StrokeThickness, FontSize].map((value, index) => {
-      if (value === null || value === undefined) {
+      if (value === null || value === undefined || index === 0 || index === 1) {
         // we still want to render a slider if the value is 0
         return null;
       }
