@@ -121,12 +121,12 @@ class ColorPaletteHeader extends React.PureComponent {
           {availablePalettes.includes('TextColor') &&
             this.renderTextColorIcon()
           }
-          {availablePalettes.includes('StrokeColor') &&
+          {/* {availablePalettes.includes('StrokeColor') &&
             this.renderBorderColorIcon()
           }
           {availablePalettes.includes('FillColor') &&
             this.renderFillColorIcon()
-          }
+          } */}
         </div>
       </div>
     );
