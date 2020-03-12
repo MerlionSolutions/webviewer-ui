@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import core from 'core';
 import { isIOS } from 'helpers/device';
 import selectors from 'selectors';
-
+import Select from 'react-select';
 import './TextSignature.scss';
 
 const propTypes = {
@@ -16,7 +16,10 @@ const propTypes = {
 };
 
 const FONT_SIZE = 100;
-
+const colorOptions = [
+  { value: '#47abcc', label: 'Blue ink' },
+  { value: '#000', label: 'Black ink' },
+];
 const TextSignature = ({
   isModalOpen,
   _setSaveSignature,
@@ -29,6 +32,7 @@ const TextSignature = ({
 
   const [value, setValue] = useState(core.getCurrentUser());
   const [activeIndex, setActiveIndex] = useState(0);
+  const [color, setColor]  = useState({ value: '#47abcc', label: 'Blue' });
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
@@ -82,7 +86,7 @@ const TextSignature = ({
       canvas.height = (height * multiplier) + 25;
     };
     const setFont = () => {
-      ctx.fillStyle = '#000';
+      ctx.fillStyle = color.value;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = `${FONT_SIZE * multiplier}px ${fonts[activeIndex]}`;
@@ -100,7 +104,7 @@ const TextSignature = ({
       drawTextSignature();
       setSignature();
     }
-  }, [activeIndex, isTabPanelSelected, value, fonts, setSignature]);
+  }, [activeIndex, isTabPanelSelected, value, fonts, setSignature, color]);
 
   useEffect(() => {
     if (isModalOpen && isTabPanelSelected) {
@@ -124,9 +128,17 @@ const TextSignature = ({
     const value = e.target.value;
     setValue(value);
   };
-
+  const handleColorChange = (selectedOption) => {
+    console.log(selectedOption);
+    setColor(selectedOption);
+  };
   return (
     <div className="text-signature">
+      <Select
+        onChange={handleColorChange}
+        options={colorOptions}
+        placeholder={'Ink color(Blue or Black)'}
+      />
       <input
         className="text-signature-input"
         ref={inputRef}
@@ -146,13 +158,14 @@ const TextSignature = ({
                 'text-signature-text': true,
                 active: index === activeIndex,
               })}
-              style={{ fontFamily: font, fontSize: FONT_SIZE }}
+              style={{ fontFamily: font, fontSize: FONT_SIZE, color:color.value }}
               onClick={() => setActiveIndex(index)}
             >
               {value}
             </div>
           ))}
         </div>
+        <div></div>
         <canvas ref={canvasRef} />
       </div>
     </div>
