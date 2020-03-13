@@ -17,7 +17,7 @@ const propTypes = {
 
 const FONT_SIZE = 100;
 const colorOptions = [
-  { value: '#47abcc', label: 'Blue ink' },
+  { value: '#395788', label: 'Blue ink' },
   { value: '#000', label: 'Black ink' },
 ];
 const TextSignature = ({
