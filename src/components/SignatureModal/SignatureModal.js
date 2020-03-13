@@ -103,9 +103,9 @@ const SignatureModal = () => {
               <Tab dataElement="textSignaturePanelButton">
                 <Button label={t('action.type')} />
               </Tab>
-              <Tab dataElement="imageSignaturePanelButton">
+              {/* <Tab dataElement="imageSignaturePanelButton">
                 <Button label={t('action.upload')} />
-              </Tab>
+              </Tab> */}
             </div>
             <ActionButton
               dataElement="signatureModalCloseButton"
@@ -127,12 +127,12 @@ const SignatureModal = () => {
               _setSaveSignature={_setSaveSignature}
             />
           </TabPanel>
-          <TabPanel dataElement="imageSignaturePanel">
+          {/* <TabPanel dataElement="imageSignaturePanel">
             <ImageSignature
               isModalOpen={isOpen}
               _setSaveSignature={_setSaveSignature}
             />
-          </TabPanel>
+          </TabPanel> */}
         </Tabs>
 
         <div className="footer">
