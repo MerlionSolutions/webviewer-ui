@@ -32,7 +32,7 @@ const TextSignature = ({
 
   const [value, setValue] = useState(core.getCurrentUser());
   const [activeIndex, setActiveIndex] = useState(0);
-  const [color, setColor]  = useState({ value: '#47abcc', label: 'Blue' });
+  const [color, setColor]  = useState({ value: '#395788', label: 'Blue ink' });
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
