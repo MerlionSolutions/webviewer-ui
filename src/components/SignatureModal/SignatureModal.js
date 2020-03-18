@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { isMobile } from 'helpers/device';
 import Button from 'components/Button';
 import ActionButton from 'components/ActionButton';
 import { Tabs, Tab, TabPanel } from 'components/Tabs';
@@ -135,18 +136,24 @@ const SignatureModal = () => {
           </TabPanel> */}
         </Tabs>
 
-        <div className="footer">
-          <div>
-            <p>
-              Customer agrees to all terms and conditions contained in the eNotaryLog <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
-              the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
-              and Communications which can be found for review on the eNotaryLog website.
-            </p> 
-            <p>
-              By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
-            </p>
-          </div>
-        </div>
+        {
+          !isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                Customer agrees to all terms and conditions contained in the eNotaryLog 
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the 
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                and Communications which can be found for review on the eNotaryLog website.
+                </p> 
+                <p>
+                By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
         <div
           className="footer"
           style={{
@@ -172,6 +179,24 @@ const SignatureModal = () => {
             {sigType === 'signature' ? 'Accept and create signature' : 'Accept and create initials'}
           </div>
         </div>
+        {
+          isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                Customer agrees to all terms and conditions contained in the eNotaryLog 
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the 
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                and Communications which can be found for review on the eNotaryLog website.
+                </p> 
+                <p>
+                By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   );
