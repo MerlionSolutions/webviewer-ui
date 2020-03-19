@@ -17,7 +17,7 @@ const propTypes = {
 
 const FONT_SIZE = 100;
 const colorOptions = [
-  { value: '#395788', label: 'Blue ink' },
+  { value: '#4B92DB', label: 'Blue ink' },
   { value: '#000', label: 'Black ink' },
 ];
 const TextSignature = ({
@@ -32,7 +32,7 @@ const TextSignature = ({
 
   const [value, setValue] = useState(core.getCurrentUser());
   const [activeIndex, setActiveIndex] = useState(0);
-  const [color, setColor]  = useState({ value: '#395788', label: 'Blue ink' });
+  const [color, setColor]  = useState({ value: '#4B92DB', label: 'Blue ink' });
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
@@ -129,7 +129,6 @@ const TextSignature = ({
     setValue(value);
   };
   const handleColorChange = (selectedOption) => {
-    console.log(selectedOption);
     setColor(selectedOption);
   };
   return (
@@ -137,7 +136,7 @@ const TextSignature = ({
       <Select
         onChange={handleColorChange}
         options={colorOptions}
-        placeholder={'Ink color(Blue or Black)'}
+        placeholder={'Ink color (Blue or Black)'}
       />
       <input
         className="text-signature-input"
