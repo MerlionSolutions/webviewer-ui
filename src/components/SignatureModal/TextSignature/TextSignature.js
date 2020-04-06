@@ -30,7 +30,7 @@ const TextSignature = ({
     selectors.getClickedSigWidget(state)
   ]);
 
-  const [value, setValue] = useState(core.getCurrentUser());
+  const [value, setValue] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const [color, setColor]  = useState({ value: '#4B92DB', label: 'Blue ink' });
   const inputRef = useRef();
