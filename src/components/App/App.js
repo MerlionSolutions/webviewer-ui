@@ -36,6 +36,7 @@ import CopyTextHandler from 'components/CopyTextHandler';
 import PrintHandler from 'components/PrintHandler';
 import FontHandler from 'components/FontHandler';
 import ZoomOverlay from 'components/ZoomOverlay';
+import PlaceholderOverlay from 'components/PlaceholderOverlay';
 
 import defineReaderControlAPIs from 'src/apis';
 import fireEvent from 'helpers/fireEvent';
@@ -54,7 +55,7 @@ const App = ({ removeEventHandlers }) => {
     fireEvent('viewerLoaded');
 
     return removeEventHandlers;
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -73,6 +74,7 @@ const App = ({ removeEventHandlers }) => {
         <ViewControlsOverlay />
         <RedactionOverlay />
         <StampOverlay />
+        <PlaceholderOverlay />
         <MenuOverlay />
         <SignatureOverlay />
         <PageNavOverlay />
