@@ -132,9 +132,17 @@ import setCustomMeasurementOverlayInfo from './setCustomMeasurementOverlayInfo';
 import setNoteTransformFunction from './setNoteTransformFunction';
 import selectThumbnailPages from './selectThumbnailPages';
 import unselectThumbnailPages from './unselectThumbnailPages';
+import _ from 'lodash';
+import * as R from 'ramda';
 
 export default store => {
+
+  window._ = _;
+  window.R = R;
+
   window.readerControl = {
+    _,
+    R,
     docViewer: window.docViewer,
     FitMode,
     LayoutMode,
