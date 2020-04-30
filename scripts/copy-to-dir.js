@@ -10,7 +10,8 @@ console.log('argv', process.argv);
 const destDir = _.last(process.argv);
 if (destDir) {
   fs.copySync(buildOutputPath, destDir, {
-    filter: file => !/(\.hot-update\.(js|json))$/.test(file)
+    filter: file => !/(\.hot-update\.(js|json))$/.test(file),
+    overwrite: true
   });
   console.log(chalk.green.bold.underline('Copied built files 👌'));
 } else {

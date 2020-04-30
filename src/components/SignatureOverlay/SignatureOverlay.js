@@ -276,11 +276,7 @@ class SignatureOverlay extends React.PureComponent {
             </div>
           ))}
           <div
-            className={`add-signature${
-              defSigs.length >= maxSignaturesCount
-                ? ' disabled'
-                : ' enabled'
-              }`}
+            className={`add-signature${defSigs.length >= maxSignaturesCount ? ' disabled' : ' enabled'}`}
             onClick={this.openSignatureModal}
           >
             {t('option.signatureOverlay.addSignature')}

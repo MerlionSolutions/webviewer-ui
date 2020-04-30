@@ -267,3 +267,8 @@ export const openSignatureOverlay = (type = 'signature') => dispatch => {
   });
 };
 
+
+export const registerHeaderGroup = (headerGroup, items) => ({
+  type: 'REGISTER_HEADER_GROUP',
+  payload: { headerGroup, items },
+});
