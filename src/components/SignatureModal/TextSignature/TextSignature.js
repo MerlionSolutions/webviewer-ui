@@ -113,7 +113,15 @@ const TextSignature = ({
   }, [isModalOpen, isTabPanelSelected, setSignature]);
 
   useEffect(() => {
+    if (isModalOpen && !clickedSigWidgetId) {
+      setValue('');
+    }
+
+  },[isModalOpen]);
+
+  useEffect(() => {
     if (isTabPanelSelected) {
+      setValue('');
       inputRef.current?.focus();
 
       if (isIOS) {
@@ -128,7 +136,7 @@ const TextSignature = ({
     const value = e.target.value;
     setValue(value);
   };
-  const handleColorChange = (selectedOption) => {
+  const handleColorChange = selectedOption => {
     setColor(selectedOption);
   };
   return (
