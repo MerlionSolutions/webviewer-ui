@@ -74,6 +74,10 @@ const ToolButton = ({ toolName, ...restProps }) => {
   let color = '';
   const showColor = customOverrides?.showColor || toolButtonObject.showColor;
   if (showColor === 'always' || (showColor === 'active' && isActive)) {
+    if (toolStyles && toolStyles[iconColor]) {
+      color = toolStyles[iconColor]?.toHexString?.();
+    }
+
     const toolStyles = getToolStyles(toolName);
     color = toolStyles?.[iconColor]?.toHexString?.();
   }

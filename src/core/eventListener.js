@@ -61,9 +61,22 @@ const getEventToObjectMap = () => {
     notify: annotManager,
     setNoteText: annotManager,
     fileAttachmentDataAvailable: window.docViewer,
-    editorFocus: editBoxManager,
-    editorBlur: editBoxManager,
-    editorTextChanged: editBoxManager,
-    editorSelectionChanged: editBoxManager,
+    // NOTE: enl changes for 6.3
+    editorFocus: {
+      on: (...args) => { },
+      off: () => { }
+    },
+    editorBlur: {
+      on: (...args) => { },
+      off: () => { }
+    },
+    editorTextChanged: {
+      on: (...args) => { },
+      off: () => { }
+    },
+    editorSelectionChanged: {
+      on: (...args) => { },
+      off: () => { }
+    },
   };
 };

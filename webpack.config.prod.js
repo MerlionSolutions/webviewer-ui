@@ -2,15 +2,17 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackShellPlugin = require('webpack-shell-plugin');
+const destDir = process.env.DEST_DIR;
 
 module.exports = {
   mode: 'production',
+  devtool: 'cheap-module-eval-source-map',
   entry: path.resolve(__dirname, 'src'),
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'webviewer-ui.min.js',
-    chunkFilename: 'chunks/[name].chunk.js',
-    publicPath: './',
+    publicPath: '/',
   },
   plugins: [
     new CopyWebpackPlugin([
@@ -33,8 +35,11 @@ module.exports = {
     ]),
     new MiniCssExtractPlugin({
       filename: 'style.css',
-      chunkFilename: 'chunks/[name].chunk.css'
     }),
+    new WebpackShellPlugin({
+      dev: false,
+      onBuildEnd: `node ./scripts/copy-to-dir.js ${destDir}`
+    })
     // new BundleAnalyzerPlugin()
   ],
   module: {

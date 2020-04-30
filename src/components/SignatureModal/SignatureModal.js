@@ -18,10 +18,11 @@ import selectors from 'selectors';
 import './SignatureModal.scss';
 
 const SignatureModal = () => {
-  const [isDisabled, isSaveSignatureDisabled, isOpen] = useSelector(state => [
+  const [isDisabled, isSaveSignatureDisabled, isOpen, sigType = 'signature'] = useSelector(state => [
     selectors.isElementDisabled(state, 'signatureModal'),
     selectors.isElementDisabled(state, 'saveSignatureButton'),
     selectors.isElementOpen(state, 'signatureModal'),
+    selectors.getSigType(state)
   ]);
   const dispatch = useDispatch();
   const [saveSignature, setSaveSignature] = useState(false);
@@ -64,6 +65,7 @@ const SignatureModal = () => {
   const createSignature = () => {
     if (!signatureTool.isEmptySignature()) {
       if (saveSignature) {
+        signatureTool.annot.setCustomData('type', sigType);
         signatureTool.saveSignatures(signatureTool.annot);
       }
       if (signatureTool.hasLocation()) {

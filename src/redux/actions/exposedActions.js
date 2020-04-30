@@ -234,3 +234,24 @@ export const setCustomElementOverrides = (dataElement, overrides) => ({
   type: 'SET_CUSTOM_ELEMENT_OVERRIDES',
   payload: { dataElement, overrides },
 });
+
+
+
+export const setSigType = type => dispatch => dispatch({
+  type: 'SET_SIG_MODAL_TYPE',
+  payload: { type }
+});
+
+export const openSignatureModal = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_MODAL',
+    payload: { type }
+  });
+};
+export const openSignatureOverlay = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_OVERLAY',
+    payload: { type }
+  });
+};
+

@@ -12,6 +12,7 @@ import getOverlayPositionBasedOn from 'helpers/getOverlayPositionBasedOn';
 import getAnnotationStyles from 'helpers/getAnnotationStyles';
 import actions from 'actions';
 import selectors from 'selectors';
+import _ from 'lodash';
 
 import './SignatureOverlay.scss';
 
@@ -25,6 +26,8 @@ class SignatureOverlay extends React.PureComponent {
     openElement: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     maxSignaturesCount: PropTypes.number.isRequired,
+    maxInitialsCount: PropTypes.number.isRequired,
+    openSignatureModal: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -113,10 +116,7 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureSaved = async annotations => {
-    const numberOfSignaturesToRemove =
-      this.state.defaultSignatures.length +
-      annotations.length -
-      this.props.maxSignaturesCount;
+    const numberOfSignaturesToRemove = this.state.defaultSignatures.length + annotations.length - (this.props.maxSignaturesCount + this.props.maxInitialsCount);
     const defaultSignatures = [...this.state.defaultSignatures];
 
     if (numberOfSignaturesToRemove > 0) {
@@ -174,6 +174,9 @@ class SignatureOverlay extends React.PureComponent {
     }
   };
 
+
+
+
   // returns an array of objects in the shape of: { annotation, preview }
   // annotation: a copy of the annotation passed in
   // imgSrc: preview of the annotation, a base64 string
@@ -181,10 +184,10 @@ class SignatureOverlay extends React.PureComponent {
     // copy the annotation because we need to mutate the annotation object later if there're any styles changes
     // and we don't want the original annotation to be mutated as well
     // since it's been added to the canvas
+    console.log('annotations:before', _.head(annotations)?.CustomData);
     annotations = annotations.map(core.getAnnotationCopy);
-    const previews = await Promise.all(
-      annotations.map(annotation => this.signatureTool.getPreview(annotation)),
-    );
+    console.log('annotations', _.head(annotations)?.CustomData);
+    const previews = await Promise.all(annotations.map(annotation => this.signatureTool.getPreview(annotation)));
 
     return annotations.map((annotation, i) => ({
       annotation,
@@ -223,27 +226,42 @@ class SignatureOverlay extends React.PureComponent {
 
   openSignatureModal = () => {
     const { defaultSignatures } = this.state;
-    const { openElement, closeElement, maxSignaturesCount } = this.props;
+    const { openSignatureModal, maxSignaturesCount } = this.props;
 
-    if (defaultSignatures.length < maxSignaturesCount) {
-      openElement('signatureModal');
-      closeElement('signatureOverlay');
+
+    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'signature');
+    if (sigs.length < maxSignaturesCount) {
+      openSignatureModal('signature');
     }
   };
 
+  openInitialsModal = () => {
+    const { defaultSignatures } = this.state;
+    const { openSignatureModal, maxInitialsCount } = this.props;
+
+    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'initials');
+    if (sigs.length < maxInitialsCount) {
+      openSignatureModal('initials');
+    }
+  };
+
+
   render() {
     const { left, right, defaultSignatures } = this.state;
-    const { t, isDisabled, maxSignaturesCount } = this.props;
+    const { t, isDisabled, maxSignaturesCount, maxInitialsCount } = this.props;
     const className = getClassName('Overlay SignatureOverlay', this.props);
 
     if (isDisabled) {
       return null;
     }
 
+    const defSigs = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'signature');
+    const defInitials = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'initials');
+
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
         <div className="default-signatures-container">
-          {defaultSignatures.map(({ imgSrc }, index) => (
+          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'signature') ? undefined : (
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
@@ -260,16 +278,46 @@ class SignatureOverlay extends React.PureComponent {
           ))}
           <div
             className={`add-signature${
-              defaultSignatures.length >= maxSignaturesCount
+              defSigs.length >= maxSignaturesCount
                 ? ' disabled'
                 : ' enabled'
-            }`}
+              }`}
             onClick={this.openSignatureModal}
           >
             {t('option.signatureOverlay.addSignature')}
           </div>
+
+
+
+
+          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'initials') ? undefined : (
+            <div className="default-signature" key={index}>
+              <div
+                className="signature-image"
+                onClick={() => this.setSignature(index)}
+              >
+                <img src={imgSrc} />
+              </div>
+              <ActionButton
+                dataElement="defaultSignatureDeleteButton"
+                img="ic_delete_black_24px"
+                onClick={() => this.deleteDefaultSignature(index)}
+              />
+            </div>
+          ))}
+          <div
+            className={`add-signature${
+              defInitials.length >= maxInitialsCount
+                ? ' disabled'
+                : ' enabled'
+              }`}
+            onClick={this.openInitialsModal}
+          >
+            Add Initials
+          </div>
         </div>
       </div>
+
     );
   }
 }
@@ -279,12 +327,14 @@ const mapStateToProps = state => ({
   isOpen: selectors.isElementOpen(state, 'signatureOverlay'),
   isSignatureModalOpen: selectors.isElementOpen(state, 'signatureModal'),
   maxSignaturesCount: selectors.getMaxSignaturesCount(state),
+  maxInitialsCount: selectors.getMaxInitialsCount(state),
 });
 
 const mapDispatchToProps = {
   closeElements: actions.closeElements,
   closeElement: actions.closeElement,
   openElement: actions.openElement,
+  openSignatureModal: actions.openSignatureModal
 };
 
 export default connect(
