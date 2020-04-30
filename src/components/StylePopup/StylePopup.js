@@ -101,7 +101,7 @@ class StylePopup extends React.PureComponent {
     }
 
     return [Opacity, StrokeThickness, FontSize].map((value, index) => {
-      if (value === null || value === undefined || !sliderProps[index]) {
+      if (value === null || value === undefined || !sliderProps[index] || index === 0 || index === 1) {
         // we still want to render a slider if the value is 0
         return null;
       }
@@ -165,7 +165,7 @@ class StylePopup extends React.PureComponent {
             onStyleChange={onStyleChange}
           />
         )}
-        { !isStyleOptionDisabled && colorMapKey === 'rectangle' && <StyleOption onStyleChange={onStyleChange} borderStyle={Style}/>}
+        {!isStyleOptionDisabled && colorMapKey === 'rectangle' && <StyleOption onStyleChange={onStyleChange} borderStyle={Style} />}
       </div>
     );
   }

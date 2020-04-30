@@ -232,6 +232,66 @@ export default initialState => (state = initialState, action) => {
       return { ...state, customElementOverrides: { ...state.customElementOverrides, [payload.dataElement]: payload.overrides } };
     case 'SET_NOTE_TRANSFORM_FUNCTION':
       return { ...state, noteTransformFunction: payload.noteTransformFunction };
+
+
+    case 'OPEN_SIGNATURE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          signatureOverlay: false,
+          signatureModal: true
+        },
+        sigType: payload.type,
+        clickedSigWidget: payload.clickedSigWidget
+      };
+
+    case 'OPEN_SIGNATURE_OVERLAY':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          signatureOverlay: true,
+          signatureModal: false
+        },
+        sigType: payload.type
+      };
+
+
+
+    case 'HIDE_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          messageModal: false
+        },
+        message: ''
+      };
+
+    case 'OPEN_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          messageModal: true
+        },
+        message: payload.message
+      };
+
+
+    case 'REGISTER_HEADER_GROUP':
+      return {
+        ...state,
+        headers: {
+          ...state.headers,
+          [payload.headerGroup]: payload.items
+        }
+      };
+
+
+
+
     default:
       return state;
   }

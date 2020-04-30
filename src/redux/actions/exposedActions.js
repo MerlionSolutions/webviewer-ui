@@ -246,3 +246,24 @@ export const setActiveResultIndex = index => ({
   type: 'SET_ACTIVE_RESULT_INDEX',
   payload: { index },
 });
+
+
+
+export const setSigType = type => dispatch => dispatch({
+  type: 'SET_SIG_MODAL_TYPE',
+  payload: { type }
+});
+
+export const openSignatureModal = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_MODAL',
+    payload: { type }
+  });
+};
+export const openSignatureOverlay = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_OVERLAY',
+    payload: { type }
+  });
+};
+
