@@ -44,6 +44,7 @@ import fireEvent from 'helpers/fireEvent';
 import './App.scss';
 import 'constants/pikaday.scss';
 import 'constants/quill.scss';
+import MessageModal from '../MessageModal';
 
 const propTypes = {
   removeEventHandlers: PropTypes.func.isRequired,
@@ -57,7 +58,7 @@ const App = ({ removeEventHandlers }) => {
     fireEvent('viewerLoaded');
 
     return removeEventHandlers;
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -97,6 +98,7 @@ const App = ({ removeEventHandlers }) => {
         <WarningModal />
         <PasswordModal />
         <ProgressModal />
+        <MessageModal />
         <CalibrationModal />
         <LinkModal />
       </div>
