@@ -137,20 +137,22 @@ class SignatureOverlay extends React.PureComponent {
 
   onSignatureDeleted = async () => {
     console.log('onSignatureDeleted');
-    let savedSignatures = this.signatureTool.getSavedSignatures();
-
+    let savedSignatures = await this.signatureTool.getSavedSignatures();
+    // NOTE: removing this as we don't save styles 
     // the saved signatures will have a different style than what we've saved in this component
     // if a user changes the styles of a signature after it's added to the document
     // here to sync up the styles we grab a saved signature in this component and use its styles to override the signatures saved in the tool
-    if (this.state.defaultSignatures.length) {
-      savedSignatures = savedSignatures.map(annotation =>
-        Object.assign(
-          annotation,
-          getAnnotationStyles(this.state.defaultSignatures[0].annotation),
-        ),
-      );
-    }
-
+    // if (this.state.defaultSignatures.length) {
+    //   savedSignatures = savedSignatures.map(annotation =>
+    //     Object.assign(
+    //       annotation,
+    //       getAnnotationStyles(this.state.defaultSignatures[0].annotation),
+    //     ),
+    //   );
+    // }
+    // console.log();
+    //Calling this a second time clears out the signatures properly.
+    await this.getSignatureDataToStore(savedSignatures);
     this.setState({
       defaultSignatures: await this.getSignatureDataToStore(savedSignatures),
     });
