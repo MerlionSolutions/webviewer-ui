@@ -34,11 +34,11 @@ const SignatureToolButton = () => {
   }, []);
 
   const handleClick = () => {
-    if (hasSavedSignature) {
-      dispatch(actions.toggleElement('signatureOverlay'));
-    } else {
-      dispatch(actions.openElement('signatureModal'));
-    }
+    // if (hasSavedSignature) {
+    dispatch(actions.toggleElement('signatureOverlay'));
+    // } else {
+    //   dispatch(actions.openElement('signatureModal'));
+    // }
   };
 
   const buttonClass = classNames({
