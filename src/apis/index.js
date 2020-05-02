@@ -73,6 +73,7 @@ import openElement from './openElement';
 import openElements from './openElements';
 import print from './print';
 import registerTool from './registerTool';
+
 import removeSearchListener from './removeSearchListener';
 import rotateClockwise from './rotateClockwise';
 import rotateCounterClockwise from './rotateCounterClockwise';
@@ -132,6 +133,12 @@ import setCustomMeasurementOverlayInfo from './setCustomMeasurementOverlayInfo';
 import setNoteTransformFunction from './setNoteTransformFunction';
 import selectThumbnailPages from './selectThumbnailPages';
 import unselectThumbnailPages from './unselectThumbnailPages';
+
+import showMessage from './showMessage';
+import hideMessage from './hideMessage';
+import registerHeaderGroup from './registerHeaderGroup';
+
+
 import _ from 'lodash';
 import * as R from 'ramda';
 
@@ -143,6 +150,10 @@ export default store => {
   window.readerControl = {
     _,
     R,
+    getExternalLibs: () => ({
+      R,
+      _
+    }),
     docViewer: window.docViewer,
     FitMode,
     LayoutMode,
@@ -283,5 +294,11 @@ export default store => {
     updateOutlines: updateOutlines(store),
     getBBAnnotManager,
     selectors: getSelectors(store),
+
+    registerHeaderGroup: registerHeaderGroup(store),
+    showMessage: showMessage(store),
+    hideMessage: hideMessage(store),
+
+
   };
 };
