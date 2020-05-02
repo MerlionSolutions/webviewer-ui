@@ -25,6 +25,8 @@ import setUserPermission from 'helpers/setUserPermission';
 import logDebugInfo from 'helpers/logDebugInfo';
 import rootReducer from 'reducers/rootReducer';
 import getHashParams from 'helpers/getHashParams';
+import * as R from 'ramda';
+import _ from 'lodash';
 
 
 const middleware = [thunk];
@@ -59,6 +61,10 @@ if (process.env.NODE_ENV === 'development') {
     location.reload();
   };
 }
+
+window.getExternalLibs = () => {
+  return { R, _ };
+};
 
 if (window.CanvasRenderingContext2D) {
   let fullAPIReady = Promise.resolve();
