@@ -116,7 +116,6 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureSaved = async annotations => {
-    console.log('onSignatureSaved');
     const numberOfSignaturesToRemove = this.state.defaultSignatures.length + annotations.length - (this.props.maxSignaturesCount + this.props.maxInitialsCount);
     const defaultSignatures = [...this.state.defaultSignatures];
 
@@ -136,7 +135,7 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureDeleted = async () => {
-    console.log('onSignatureDeleted');
+    console.log('onSignatureeleted');
     let savedSignatures = await this.signatureTool.getSavedSignatures();
     // NOTE: removing this as we don't save styles 
     // the saved signatures will have a different style than what we've saved in this component
@@ -246,7 +245,7 @@ class SignatureOverlay extends React.PureComponent {
   openInitialsModal = () => {
     const { defaultSignatures } = this.state;
     const { openSignatureModal, maxInitialsCount } = this.props;
-    
+
     const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'initials');
     if (sigs.length < maxInitialsCount) {
       openSignatureModal('initials');
@@ -288,7 +287,7 @@ class SignatureOverlay extends React.PureComponent {
               defSigs.length >= maxSignaturesCount
                 ? ' disabled'
                 : ' enabled'
-            }`}
+              }`}
             onClick={this.openSignatureModal}
           >
             {t('option.signatureOverlay.addSignature')}
@@ -317,7 +316,7 @@ class SignatureOverlay extends React.PureComponent {
               defInitials.length >= maxInitialsCount
                 ? ' disabled'
                 : ' enabled'
-            }`}
+              }`}
             onClick={this.openInitialsModal}
           >
             Add Initials

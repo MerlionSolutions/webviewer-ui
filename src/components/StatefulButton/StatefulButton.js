@@ -91,7 +91,6 @@ class StatefulButton extends React.PureComponent {
   render() {
     const { activeState } = this.state;
     const { states } = this.props;
-    console.log('state', { states, activeState });
     const { title, img, getContent, isActive } = states[activeState] || {};
     const content = getContent ? getContent(states[activeState]) : '';
     const className = [

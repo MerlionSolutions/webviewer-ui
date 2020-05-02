@@ -32,7 +32,7 @@ const TextSignature = ({
 
   const [value, setValue] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
-  const [color, setColor]  = useState({ value: '#4B92DB', label: 'Blue ink' });
+  const [color, setColor] = useState({ value: '#4B92DB', label: 'Blue ink' });
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
@@ -41,10 +41,8 @@ const TextSignature = ({
   useEffect(() => {
     if (clickedSigWidgetId) {
       const sigWidget = core.getAnnotationById(clickedSigWidgetId);
-      console.log('get clicked sig widget id', sigWidget);
       if (sigWidget) {
         const displayAuthor = core.getDisplayAuthor(sigWidget);
-        console.log('core.getDisplayAuthor', displayAuthor);
         if (displayAuthor) {
           setValue(displayAuthor);
         }
@@ -117,7 +115,7 @@ const TextSignature = ({
       setValue('');
     }
 
-  },[isModalOpen]);
+  }, [isModalOpen]);
 
   useEffect(() => {
     if (isTabPanelSelected) {
@@ -165,7 +163,7 @@ const TextSignature = ({
                 'text-signature-text': true,
                 active: index === activeIndex,
               })}
-              style={{ fontFamily: font, fontSize: FONT_SIZE, color:color.value }}
+              style={{ fontFamily: font, fontSize: FONT_SIZE, color: color.value }}
               onClick={() => setActiveIndex(index)}
             >
               {value}
