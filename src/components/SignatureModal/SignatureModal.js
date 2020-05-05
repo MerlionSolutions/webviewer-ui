@@ -9,6 +9,7 @@ import { Tabs, Tab, TabPanel } from 'components/Tabs';
 import InkSignature from 'components/SignatureModal/InkSignature';
 import TextSignature from 'components/SignatureModal/TextSignature';
 import ImageSignature from 'components/SignatureModal/ImageSignature';
+import { isMobile } from 'helpers/device';
 
 import core from 'core';
 import defaultTool from 'constants/defaultTool';
@@ -25,7 +26,7 @@ const SignatureModal = () => {
     selectors.getSigType(state)
   ]);
   const dispatch = useDispatch();
-  const [saveSignature, setSaveSignature] = useState(false);
+  const [saveSignature, setSaveSignature] = useState(true);
   const [t] = useTranslation();
   const signatureTool = core.getTool('AnnotationCreateSignature');
 
@@ -100,9 +101,9 @@ const SignatureModal = () => {
               <Tab dataElement="textSignaturePanelButton">
                 <Button label={t('action.type')} />
               </Tab>
-              <Tab dataElement="imageSignaturePanelButton">
+              {/* <Tab dataElement="imageSignaturePanelButton">
                 <Button label={t('action.upload')} />
-              </Tab>
+              </Tab> */}
             </div>
             <ActionButton
               dataElement="signatureModalCloseButton"
@@ -124,14 +125,26 @@ const SignatureModal = () => {
               _setSaveSignature={_setSaveSignature}
             />
           </TabPanel>
-          <TabPanel dataElement="imageSignaturePanel">
-            <ImageSignature
-              isModalOpen={isOpen}
-              _setSaveSignature={_setSaveSignature}
-            />
-          </TabPanel>
         </Tabs>
 
+        {
+          !isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                  Customer agrees to all terms and conditions contained in the eNotaryLog
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                and Communications which can be found for review on the eNotaryLog website.
+                </p>
+                <p>
+                  By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
         <div
           className="footer"
           style={{
@@ -149,14 +162,33 @@ const SignatureModal = () => {
                 onChange={toggleSaveSignature}
               />
               <label htmlFor="default-signature">
-                {t('option.signatureModal.saveSignature')}
+                {(sigType === 'signature') ? t('option.signatureModal.saveSignature') : 'Save Initials'}
               </label>
             </div>
           )}
           <div className="signature-create" onClick={createSignature}>
-            {t('action.create')}
+            {sigType === 'signature' ? 'Accept and create signature' : 'Accept and create initials'}
+
           </div>
         </div>
+        {
+          isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                  Customer agrees to all terms and conditions contained in the eNotaryLog
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                and Communications which can be found for review on the eNotaryLog website.
+                </p>
+                <p>
+                  By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   );

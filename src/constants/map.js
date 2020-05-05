@@ -42,7 +42,7 @@ const map = {
     annotationCheck: annotation =>
       annotation instanceof window.Annotations.FreeTextAnnotation &&
       annotation.getIntent() ===
-        window.Annotations.FreeTextAnnotation.Intent.FreeText,
+      window.Annotations.FreeTextAnnotation.Intent.FreeText,
   },
   distanceMeasurement: {
     icon: 'ic_annotation_distance_black_24px',
@@ -71,7 +71,7 @@ const map = {
     iconColor: 'StrokeColor',
     currentPalette: 'StrokeColor',
     availablePalettes: ['StrokeColor', 'FillColor'],
-    toolNames: [Tools.ToolNames.RECTANGULAR_AREA_MEASUREMENT],
+    toolNames: ['AnnotationCreateRectangularAreaMeasurement'],
     annotationCheck: annotation =>
       annotation instanceof window.Annotations.PolygonAnnotation &&
       annotation.IT === 'PolygonDimension' &&
@@ -109,7 +109,7 @@ const map = {
     annotationCheck: annotation =>
       annotation instanceof window.Annotations.FreeTextAnnotation &&
       annotation.getIntent() ===
-        window.Annotations.FreeTextAnnotation.Intent.FreeTextCallout,
+      window.Annotations.FreeTextAnnotation.Intent.FreeTextCallout,
   },
   line: {
     icon: 'ic_annotation_line_black_24px',
@@ -347,7 +347,7 @@ export const register = (tool, annotationConstructor, customAnnotCheckFunc) => {
     toolNames: [toolName],
     annotationCheck: customAnnotCheckFunc ?
       annotation => customAnnotCheckFunc(annotation) :
-      (annotationConstructor ? annotation => annotation instanceof annotationConstructor: null),
+      (annotationConstructor ? annotation => annotation instanceof annotationConstructor : null),
   };
 };
 

@@ -6,7 +6,8 @@ const WebpackShellPlugin = require('webpack-shell-plugin');
 const destDir = process.env.DEST_DIR;
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
+  cache: true,
   devtool: 'cheap-module-eval-source-map',
   entry: path.resolve(__dirname, 'src'),
   output: {

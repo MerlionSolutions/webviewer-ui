@@ -23,7 +23,7 @@ export default store => async evt => {
     if (savedSig) {
       savedSig.CustomData = _.cloneDeep(sigWig.CustomData);
       signatureTool.setSignature(savedSig);
-      return new Promise((res, rej) => setTimeout(() => {
+      return new Promise(res => setTimeout(() => {
 
         if (!signatureTool.isEmptySignature()) {
           signatureTool.addSignature();

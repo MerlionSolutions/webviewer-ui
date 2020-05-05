@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
@@ -27,6 +27,7 @@ import rootReducer from 'reducers/rootReducer';
 import getHashParams from 'helpers/getHashParams';
 import * as R from 'ramda';
 import _ from 'lodash';
+// import Promise from 'bluebird';
 
 
 const middleware = [thunk];
@@ -38,8 +39,11 @@ if (process.env.NODE_ENV === 'development') {
     middleware.push(createLogger({ collapsed: true }));
   }
 }
-
+// const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
+// const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
 const store = createStore(rootReducer, applyMiddleware(...middleware));
+
+window.actions = actions;
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('reducers/rootReducer', () => {

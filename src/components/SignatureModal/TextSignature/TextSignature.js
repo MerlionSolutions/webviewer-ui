@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
+import _ from 'lodash';
 
 import core from 'core';
 import { isIOS } from 'helpers/device';
@@ -16,18 +18,45 @@ const propTypes = {
 };
 
 const FONT_SIZE = 100;
+const colorOptions = [
+  { value: '#4B92DB', label: 'Blue ink' },
+  { value: '#000', label: 'Black ink' },
+];
 
 const TextSignature = ({
   isModalOpen,
   _setSaveSignature,
   isTabPanelSelected,
 }) => {
-  const fonts = useSelector(state => selectors.getSignatureFonts(state));
+
+  const [fonts, clickedSigWidgetId, sigType = 'signature'] = useSelector(state => [
+    selectors.getSignatureFonts(state),
+    selectors.getClickedSigWidget(state),
+    selectors.getSigType(state)
+  ]);
+
   const [value, setValue] = useState(core.getCurrentUser());
   const [activeIndex, setActiveIndex] = useState(0);
+  const [color, setColor] = useState({ value: '#4B92DB', label: 'Blue ink' });
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
+
+
+  useEffect(() => {
+    if (clickedSigWidgetId) {
+      const sigWidget = core.getAnnotationById(clickedSigWidgetId);
+      // console.log('get clicked sig widget id', sigWidget);
+      if (sigWidget) {
+        const displayAuthor = core.getDisplayAuthor(sigWidget);
+        // console.log('core.getDisplayAuthor', displayAuthor);
+        if (displayAuthor) {
+          setValue(displayAuthor);
+        }
+      }
+    }
+  }, [clickedSigWidgetId]);
+
 
   useEffect(() => {
     // this can happen when an user added a new signature font, select it and then removed it
@@ -49,6 +78,43 @@ const TextSignature = ({
     }
   }, [_setSaveSignature, value]);
 
+
+  useEffect(() => {
+    if (isTabPanelSelected) {
+      let authorName;
+
+      if (clickedSigWidgetId) {
+        const sigWidget = core.getAnnotationById(clickedSigWidgetId);
+        // console.log('get clicked sig widget id', sigWidget);
+        if (sigWidget) {
+          authorName = core.getDisplayAuthor(sigWidget);
+          // console.log('core.getDisplayAuthor', displayAuthor);
+          if (authorName) {
+            setValue(authorName);
+          }
+        }
+      } else {
+        authorName = core.getDisplayAuthor();
+      }
+
+      const sp = _.split(authorName, ' ') || [];
+      if (sigType === 'initials') {
+        const initials = _.chain(sp)
+          .map(_.head)
+          .map(_.toUpper)
+          .join('')
+          .value();
+        authorName = initials;
+      } else {
+        authorName = _.chain(sp)
+          .map(_.upperFirst)
+          .join(' ')
+          .value();
+      }
+      setValue(authorName);
+    }
+  }, [isModalOpen, isTabPanelSelected, clickedSigWidgetId]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -65,7 +131,8 @@ const TextSignature = ({
     };
 
     const setFont = () => {
-      ctx.fillStyle = '#000';
+      // ctx.fillStyle = '#000';
+      ctx.fillStyle = color.value;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = `${FONT_SIZE * multiplier}px ${fonts[activeIndex]}`;
@@ -83,7 +150,7 @@ const TextSignature = ({
       drawTextSignature();
       setSignature();
     }
-  }, [activeIndex, isTabPanelSelected, value, fonts, setSignature]);
+  }, [activeIndex, isTabPanelSelected, value, fonts, setSignature, color, sigType, clickedSigWidgetId]);
 
   useEffect(() => {
     if (isModalOpen && isTabPanelSelected) {
@@ -107,9 +174,17 @@ const TextSignature = ({
     const value = e.target.value;
     setValue(value);
   };
-
+  const handleColorChange = selectedOption => {
+    setColor(selectedOption);
+  };
   return (
     <div className="text-signature">
+      <Select
+        onChange={handleColorChange}
+        options={colorOptions}
+        defaultValue={colorOptions[0]}
+        placeholder={'Ink color (Blue or Black)'}
+      />
       <input
         className="text-signature-input"
         ref={inputRef}
@@ -129,7 +204,7 @@ const TextSignature = ({
                 'text-signature-text': true,
                 active: index === activeIndex,
               })}
-              style={{ fontFamily: font, fontSize: FONT_SIZE }}
+              style={{ fontFamily: font, fontSize: FONT_SIZE, color: color.value }}
               onClick={() => setActiveIndex(index)}
             >
               {value}

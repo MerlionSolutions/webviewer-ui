@@ -141,6 +141,7 @@ import setActiveResult from './setActiveResult';
 import showMessage from './showMessage';
 import hideMessage from './hideMessage';
 import registerHeaderGroup from './registerHeaderGroup';
+import Promise from 'bluebird';
 
 
 import _ from 'lodash';
@@ -155,6 +156,7 @@ export default store => {
     _,
     R,
     getExternalLibs: () => ({
+      Promise,
       R,
       _
     }),
