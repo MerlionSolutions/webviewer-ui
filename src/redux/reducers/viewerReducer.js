@@ -220,6 +220,8 @@ export default initialState => (state = initialState, action) => {
       return { ...state, leftPanelWidth: payload.width };
     case 'SET_MAX_SIGNATURES_COUNT':
       return { ...state, maxSignaturesCount: payload.maxSignaturesCount };
+    case 'SET_MAX_INITIALS_COUNT':
+      return { ...state, maxInitialsCount: payload.maxInitialsCount };
     case 'SET_USER_DATA':
       return { ...state, userData: payload.userData };
     case 'SET_CUSTOM_MEASUREMENT_OVERLAY':

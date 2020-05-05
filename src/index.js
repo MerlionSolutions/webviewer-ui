@@ -27,7 +27,7 @@ import rootReducer from 'reducers/rootReducer';
 import getHashParams from 'helpers/getHashParams';
 import * as R from 'ramda';
 import _ from 'lodash';
-// import Promise from 'bluebird';
+import Promise from 'bluebird';
 
 
 const middleware = [thunk];
@@ -39,10 +39,8 @@ if (process.env.NODE_ENV === 'development') {
     middleware.push(createLogger({ collapsed: true }));
   }
 }
-// const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
-// const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
-const store = createStore(rootReducer, applyMiddleware(...middleware));
-
+const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
+const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
 window.actions = actions;
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
@@ -67,7 +65,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 window.getExternalLibs = () => {
-  return { R, _ };
+  return { R, _, Promise };
 };
 
 if (window.CanvasRenderingContext2D) {

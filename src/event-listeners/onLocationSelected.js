@@ -9,6 +9,9 @@ export default store => async evt => {
   const savedSigs = signatureTool.getSavedSignatures();
   const annotMgr = window.docViewer.getAnnotationManager();
   const annots = annotMgr.getAnnotationsList();
+  const currUser = annotMgr.getCurrentUser();
+  console.log('sigWigType');
+
   const sigWig = _.chain(annots)
     .filter(el => el instanceof Annotations.SignatureWidgetAnnotation)
     .filter(el => el.X <= evt.x && el.X + el.Width > evt.x)
@@ -19,7 +22,7 @@ export default store => async evt => {
   let sigwigType;
   if (sigWig) {
     sigwigType = sigWig.getField().name.split('.')[0];
-    const savedSig = _.find(savedSigs, sig => sig.CustomData.type === sigwigType);
+    const savedSig = _.find(savedSigs, sig => sig.CustomData.type === sigwigType && sig.Author === currUser);
     if (savedSig) {
       savedSig.CustomData = _.cloneDeep(sigWig.CustomData);
       signatureTool.setSignature(savedSig);

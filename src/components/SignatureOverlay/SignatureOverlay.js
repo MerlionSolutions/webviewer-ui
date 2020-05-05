@@ -28,6 +28,7 @@ class SignatureOverlay extends React.PureComponent {
     maxSignaturesCount: PropTypes.number.isRequired,
     maxInitialsCount: PropTypes.number.isRequired,
     openSignatureModal: PropTypes.func.isRequired,
+    userName: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -183,23 +184,21 @@ class SignatureOverlay extends React.PureComponent {
     // copy the annotation because we need to mutate the annotation object later if there're any styles changes
     // and we don't want the original annotation to be mutated as well
     // since it's been added to the canvas
-    console.log('annotations:before', _.head(annotations)?.CustomData);
     annotations = annotations.map(core.getAnnotationCopy);
-    console.log('annotations', _.head(annotations)?.CustomData);
     const previews = await Promise.all(annotations.map(annotation => this.signatureTool.getPreview(annotation)));
 
     return annotations.map((annotation, i) => ({
       annotation,
+      author: annotation.Author,
+      id: annotation.Id,
       imgSrc: previews[i],
     }));
   };
 
-  setSignature = index => {
-    this.currentSignatureIndex = index;
+  setSignature = id => {
+    this.currentSignatureIndex = id;
 
-    const { annotation } = this.state.defaultSignatures[
-      this.currentSignatureIndex
-    ];
+    const { annotation } = _.find(this.state.defaultSignatures, s => s.Id === id) || {};
 
     core.setToolMode('AnnotationCreateSignature');
     this.signatureTool.setSignature(annotation);
@@ -212,14 +211,17 @@ class SignatureOverlay extends React.PureComponent {
     }
   };
 
-  deleteDefaultSignature = index => {
+  deleteDefaultSignature = id => {
+    const sigs = this.signatureTool.getSavedSignatures();
+    const index = _.findIndex(sigs, sig => sig.Id === id);
+
     this.signatureTool.deleteSavedSignature(index);
 
-    const isDeletingCurrentSignature = this.currentSignatureIndex === index;
+    const isDeletingCurrentSignature = this.currentSignatureIndex === id;
     if (isDeletingCurrentSignature) {
       this.signatureTool.annot = null;
       this.signatureTool.hidePreview();
-      this.currentSignatureIndex = -1;
+      this.currentSignatureIndex = null;
     }
   };
 
@@ -254,24 +256,25 @@ class SignatureOverlay extends React.PureComponent {
       return null;
     }
 
-    const defSigs = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'signature');
-    const defInitials = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'initials');
+    const defSigs = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'signature' && author === this.props.userName);
+    const defInitials = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'initials' && author === this.props.userName);
+    console.log('this.props.userName', this.props.userName);
 
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
         <div className="default-signatures-container">
-          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'signature') ? undefined : (
+          {defSigs.map(({ annotation, imgSrc, id }, index) => (annotation.CustomData.type !== 'signature') ? undefined : (
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
-                onClick={() => this.setSignature(index)}
+                onClick={() => this.setSignature(id)}
               >
                 <img src={imgSrc} />
               </div>
               <ActionButton
                 dataElement="defaultSignatureDeleteButton"
                 img="ic_delete_black_24px"
-                onClick={() => this.deleteDefaultSignature(index)}
+                onClick={() => this.deleteDefaultSignature(id)}
               />
             </div>
           ))}
@@ -285,18 +288,18 @@ class SignatureOverlay extends React.PureComponent {
 
 
 
-          {defaultSignatures.map(({ annotation, imgSrc }, index) => (annotation.CustomData.type !== 'initials') ? undefined : (
+          {defInitials.map(({ annotation, imgSrc, id }, index) => (annotation.CustomData.type !== 'initials') ? undefined : (
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
-                onClick={() => this.setSignature(index)}
+                onClick={() => this.setSignature(id)}
               >
                 <img src={imgSrc} />
               </div>
               <ActionButton
                 dataElement="defaultSignatureDeleteButton"
                 img="ic_delete_black_24px"
-                onClick={() => this.deleteDefaultSignature(index)}
+                onClick={() => this.deleteDefaultSignature(id)}
               />
             </div>
           ))}
@@ -323,6 +326,7 @@ const mapStateToProps = state => ({
   isSignatureModalOpen: selectors.isElementOpen(state, 'signatureModal'),
   maxSignaturesCount: selectors.getMaxSignaturesCount(state),
   maxInitialsCount: selectors.getMaxInitialsCount(state),
+  userName: selectors.getUserName(state)
 });
 
 const mapDispatchToProps = {

@@ -1,25 +1,32 @@
 import getHashParams from 'helpers/getHashParams';
+import _ from 'lodash';
+import * as R from 'ramda';
+import Promise from 'bluebird';
 
-const loadScript = (scriptSrc, warning) =>
-  new Promise(resolve => {
-    if (!scriptSrc) {
-      return resolve();
+
+
+const loadScript = (scriptSrc, warning) => new Promise(resolve => {
+  if (!scriptSrc) {
+    return resolve();
+  }
+
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.onload = function () {
+    resolve();
+  };
+  script.onerror = function () {
+    if (warning) {
+      console.warn(warning);
     }
+    resolve();
+  };
+  script.src = scriptSrc;
+  document.getElementsByTagName('head')[0].appendChild(script);
+});
 
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.onload = function() {
-      resolve();
-    };
-    script.onerror = function() {
-      if (warning) {
-        console.warn(warning);
-      }
-      resolve();
-    };
-    script.src = scriptSrc;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  });
+const loadScripts = (scriptSrcs, warning) => Promise.map(_.castArray(scriptSrcs), src => loadScript(src, warning));
+
 
 // communicates with the parent window to get the URL of the config file and loads it
 // ignore subsequent messages after successfully loads a config file
@@ -49,7 +56,8 @@ const loadConfig = () =>
                 }
               }
 
-              await loadScript(e.data.value, 'Config script could not be loaded');
+              console.log('loadScript', e.data.value, _.isArray(e.data.value));
+              await loadScripts(e.data.value, 'Config script could not be loaded');
               window.removeEventListener('message', loadConfig);
             }
           } finally {

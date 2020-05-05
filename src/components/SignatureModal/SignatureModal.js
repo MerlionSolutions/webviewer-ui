@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { isMobile } from 'helpers/device';
 import Button from 'components/Button';
 import ActionButton from 'components/ActionButton';
 import { Tabs, Tab, TabPanel } from 'components/Tabs';
 import InkSignature from 'components/SignatureModal/InkSignature';
 import TextSignature from 'components/SignatureModal/TextSignature';
 import ImageSignature from 'components/SignatureModal/ImageSignature';
-import { isMobile } from 'helpers/device';
 
 import core from 'core';
 import defaultTool from 'constants/defaultTool';
@@ -19,12 +19,15 @@ import selectors from 'selectors';
 import './SignatureModal.scss';
 
 const SignatureModal = () => {
-  const [isDisabled, isSaveSignatureDisabled, isOpen, sigType = 'signature'] = useSelector(state => [
+  const [isDisabled, isSaveSignatureDisabled, isOpen, sigType] = useSelector(state => [
     selectors.isElementDisabled(state, 'signatureModal'),
     selectors.isElementDisabled(state, 'saveSignatureButton'),
     selectors.isElementOpen(state, 'signatureModal'),
     selectors.getSigType(state)
   ]);
+
+
+
   const dispatch = useDispatch();
   const [saveSignature, setSaveSignature] = useState(true);
   const [t] = useTranslation();
@@ -125,6 +128,12 @@ const SignatureModal = () => {
               _setSaveSignature={_setSaveSignature}
             />
           </TabPanel>
+          {/* <TabPanel dataElement="imageSignaturePanel">
+            <ImageSignature
+              isModalOpen={isOpen}
+              _setSaveSignature={_setSaveSignature}
+            />
+          </TabPanel> */}
         </Tabs>
 
         {
@@ -168,7 +177,6 @@ const SignatureModal = () => {
           )}
           <div className="signature-create" onClick={createSignature}>
             {sigType === 'signature' ? 'Accept and create signature' : 'Accept and create initials'}
-
           </div>
         </div>
         {

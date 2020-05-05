@@ -289,3 +289,9 @@ export const deletePageIndex = pageIndexDeleted => ({
   type: 'REMOVE_PAGE_INDEX',
   payload: { pageIndexDeleted },
 });
+
+
+export const setMaxInitialsCount = maxInitialsCount => ({
+  type: 'SET_MAX_INITIALS_COUNT',
+  payload: { maxInitialsCount },
+});
