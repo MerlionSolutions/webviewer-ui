@@ -159,23 +159,25 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onAnnotationChanged = async (annotations, action) => {
-    if (
-      action === 'modify' &&
-      annotations.length === 1 &&
-      annotations[0].ToolName === 'AnnotationCreateSignature'
-    ) {
-      const newStyles = getAnnotationStyles(annotations[0]);
-      let annotationsWithNewStyles = this.state.defaultSignatures.map(
-        ({ annotation }) => Object.assign(annotation, newStyles),
-      );
-      annotationsWithNewStyles = await this.getSignatureDataToStore(
-        annotationsWithNewStyles,
-      );
+    // NOTE: Commenting this out show the drawn signature is still shown in the toolbar when dropped
+    // NOTE: We are not using styles so this should not have an effect.
+    // if (
+    //   action === 'modify' &&
+    //   annotations.length === 1 &&
+    //   annotations[0].ToolName === 'AnnotationCreateSignature'
+    // ) {
+    //   const newStyles = getAnnotationStyles(annotations[0]);
+    //   let annotationsWithNewStyles = this.state.defaultSignatures.map(
+    //     ({ annotation }) => Object.assign(annotation, newStyles),
+    //   );
+    //   annotationsWithNewStyles = await this.getSignatureDataToStore(
+    //     annotationsWithNewStyles,
+    //   );
 
-      this.setState({
-        defaultSignatures: annotationsWithNewStyles,
-      });
-    }
+    //   this.setState({
+    //     defaultSignatures: annotationsWithNewStyles,
+    //   });
+    // }
   };
 
   // returns an array of objects in the shape of: { annotation, preview }
@@ -261,10 +263,10 @@ class SignatureOverlay extends React.PureComponent {
       return null;
     }
 
-
+    console.log(defaultSignatures);
     const defSigs = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'signature');
     const defInitials = _.filter(defaultSignatures, ({ annotation }) => annotation.CustomData.type === 'initials');
-
+    // console.log(defSigs, defInitials)
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
         <div className="default-signatures-container">
