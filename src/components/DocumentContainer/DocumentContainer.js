@@ -12,6 +12,7 @@ import getHashParams from 'helpers/getHashParams';
 import setCurrentPage from 'helpers/setCurrentPage';
 import { getMinZoomLevel, getMaxZoomLevel } from 'constants/zoomFactors';
 import actions from 'actions';
+import _ from 'lodash';
 import selectors from 'selectors';
 
 import './DocumentContainer.scss';

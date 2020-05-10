@@ -10,6 +10,7 @@ import SearchOverlay from 'components/SearchOverlay';
 import MenuOverlay from 'components/MenuOverlay';
 import RedactionOverlay from 'components/RedactionOverlay';
 import StampOverlay from 'components/StampOverlay';
+import TemplateOverlay from 'components/TemplateOverlay';
 import PageNavOverlay from 'components/PageNavOverlay';
 import SignatureOverlay from 'components/SignatureOverlay';
 import MeasurementOverlay from 'components/MeasurementOverlay';
@@ -77,6 +78,7 @@ const App = ({ removeEventHandlers }) => {
         <ViewControlsOverlay />
         <RedactionOverlay />
         <StampOverlay />
+        <TemplateOverlay />
         <MenuOverlay />
         <SignatureOverlay />
         <PageNavOverlay />

@@ -10,7 +10,6 @@ export default store => async evt => {
   const annotMgr = window.docViewer.getAnnotationManager();
   const annots = annotMgr.getAnnotationsList();
   const currUser = annotMgr.getCurrentUser();
-  console.log('sigWigType');
 
   const sigWig = _.chain(annots)
     .filter(el => el instanceof Annotations.SignatureWidgetAnnotation)
@@ -24,7 +23,7 @@ export default store => async evt => {
     sigwigType = sigWig.getField().name.split('.')[0];
     const savedSig = _.find(savedSigs, sig => sig.CustomData.type === sigwigType && sig.Author === currUser);
     if (savedSig) {
-      savedSig.CustomData = _.cloneDeep(sigWig.CustomData);
+      savedSig.CustomData = { ..._.cloneDeep(sigWig.CustomData), sigwigId: sigWig.CustomData.id };
       signatureTool.setSignature(savedSig);
       return new Promise(res => setTimeout(() => {
 
@@ -33,7 +32,7 @@ export default store => async evt => {
           res();
         }
 
-      }, 500));
+      }, 100));
     }
 
   }

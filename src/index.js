@@ -39,8 +39,10 @@ if (process.env.NODE_ENV === 'development') {
     middleware.push(createLogger({ collapsed: true }));
   }
 }
-const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
-const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
+// const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
+// const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
+const store = createStore(rootReducer, applyMiddleware(...middleware));
+
 window.actions = actions;
 
 if (process.env.NODE_ENV === 'development' && module.hot) {

@@ -155,6 +155,7 @@ export default store => {
   window.readerControl = {
     _,
     R,
+    store,
     getExternalLibs: () => ({
       Promise,
       R,

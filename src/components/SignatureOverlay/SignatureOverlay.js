@@ -184,13 +184,13 @@ class SignatureOverlay extends React.PureComponent {
     // copy the annotation because we need to mutate the annotation object later if there're any styles changes
     // and we don't want the original annotation to be mutated as well
     // since it's been added to the canvas
-    annotations = annotations.map(core.getAnnotationCopy);
-    const previews = await Promise.all(annotations.map(annotation => this.signatureTool.getPreview(annotation)));
+    const copiedAnnotations = annotations.map(core.getAnnotationCopy);
+    const previews = await Promise.all(copiedAnnotations.map(annotation => this.signatureTool.getPreview(annotation)));
 
-    return annotations.map((annotation, i) => ({
+    return copiedAnnotations.map((annotation, i) => ({
       annotation,
       author: annotation.Author,
-      id: annotation.Id,
+      id: annotations[i].Id,
       imgSrc: previews[i],
     }));
   };
@@ -198,7 +198,7 @@ class SignatureOverlay extends React.PureComponent {
   setSignature = id => {
     this.currentSignatureIndex = id;
 
-    const { annotation } = _.find(this.state.defaultSignatures, s => s.Id === id) || {};
+    const { annotation } = _.find(this.state.defaultSignatures, s => s.id === id) || {};
 
     core.setToolMode('AnnotationCreateSignature');
     this.signatureTool.setSignature(annotation);
