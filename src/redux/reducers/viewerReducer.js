@@ -57,47 +57,48 @@ export default initialState => (state = initialState, action) => {
         ...state,
         openElements: { ...state.openElements, [payload.dataElement]: true },
       };
-      
-    
+
+
     case 'OPEN_SIGNATURE_MODAL':
       return {
         ...state,
         openElements: {
-          ...state.openElements, 
+          ...state.openElements,
           signatureOverlay: false,
           signatureModal: true
         },
         sigType: payload.type,
-        clickedSigWidget: payload.clickedSigWidget
+        clickedSigWidget: payload.clickedSigWidget,
+        nextTool: payload.nextTool
       };
 
     case 'OPEN_SIGNATURE_OVERLAY':
       return {
         ...state,
         openElements: {
-          ...state.openElements, 
+          ...state.openElements,
           signatureOverlay: true,
           signatureModal: false
         },
         sigType: payload.type
       };
 
-   
-   
+
+
     case 'HIDE_MESSAGE_MODAL':
       return {
         ...state,
-        openElements: { 
+        openElements: {
           ...state.openElements,
           messageModal: false
         },
         message: ''
       };
-      
+
     case 'OPEN_MESSAGE_MODAL':
       return {
         ...state,
-        openElements: { 
+        openElements: {
           ...state.openElements,
           messageModal: true
         },
@@ -109,13 +110,14 @@ export default initialState => (state = initialState, action) => {
       return {
         ...state,
         openElements: { ...state.openElements, [payload.dataElement]: false },
+        nextTool: null
       };
     case 'SET_ACTIVE_HEADER_GROUP':
       return { ...state, activeHeaderGroup: payload.headerGroup };
-    
+
     case 'REGISTER_HEADER_GROUP':
       return {
-        ...state, 
+        ...state,
         headers: {
           ...state.headers,
           [payload.headerGroup]: payload.items
@@ -232,7 +234,8 @@ export default initialState => (state = initialState, action) => {
     case 'SET_SELECTED_THUMBNAIL_PAGE_INDEXES':
       return { ...state, selectedThumbnailPageIndexes: payload.selectedThumbnailPageIndexes };
     case 'REMOVE_PAGE_INDEX':
-      return { ...state,
+      return {
+        ...state,
         selectedThumbnailPageIndexes: state.selectedThumbnailPageIndexes.filter(p => p !== payload.pageIndexDeleted).map(p => (p < payload.pageIndexDeleted ? p : p - 1)),
       };
     case 'SET_COLOR_PALETTE': {
@@ -291,7 +294,7 @@ export default initialState => (state = initialState, action) => {
     case 'SET_CUSTOM_ELEMENT_OVERRIDES':
       return { ...state, customElementOverrides: { ...state.customElementOverrides, [payload.dataElement]: payload.overrides } };
     case 'SET_NOTE_TRANSFORM_FUNCTION':
-      return { ...state, noteTransformFunction: payload.noteTransformFunction }
+      return { ...state, noteTransformFunction: payload.noteTransformFunction };
     default:
       return state;
   }

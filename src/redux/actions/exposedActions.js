@@ -106,7 +106,7 @@ export const closeElement = dataElement => (dispatch, getState) => {
     dispatch({ type: 'CLOSE_ELEMENT', payload: { dataElement: 'leftPanel' } });
     fireEvent('visibilityChanged', { element: 'leftPanel', isVisible: false });
   } else {
-    dispatch({ type: 'CLOSE_ELEMENT', payload: { dataElement } });
+    dispatch({ type: 'CLOSE_ELEMENT', payload: { dataElement, nextTool: null } });
     fireEvent('visibilityChanged', { element: dataElement, isVisible: false });
 
     if (dataElement === 'leftPanel' && state.viewer.openElements['leftPanel']) {
@@ -116,6 +116,8 @@ export const closeElement = dataElement => (dispatch, getState) => {
       });
     }
   }
+
+
 };
 export const closeElements = dataElements => dispatch => {
   if (typeof dataElements === 'string') {

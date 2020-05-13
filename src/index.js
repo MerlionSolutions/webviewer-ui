@@ -6,6 +6,9 @@ import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import thunk from 'redux-thunk';
 import _ from 'lodash';
+import * as R from 'ramda';
+import Promise from 'bluebird';
+
 
 import core from 'core';
 import actions from 'actions';
@@ -29,17 +32,22 @@ import getHashParams from 'helpers/getHashParams';
 
 const middleware = [thunk];
 
-if (process.env.NODE_ENV === 'development') {
-  const isSpamDisabled = localStorage.getItem('spamDisabled') === 'true';
-  if (!isSpamDisabled) {
-    const { createLogger } = require('redux-logger');
-    middleware.push(createLogger({ collapsed: true }));
-  }
-}
+// if (process.env.NODE_ENV === 'development') {
+//   const isSpamDisabled = localStorage.getItem('spamDisabled') === 'true';
+//   if (!isSpamDisabled) {
+//     const { createLogger } = require('redux-logger');
+//     middleware.push(createLogger({ collapsed: true }));
+//   }
+// }
 const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) : compose;
 const store = window.store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(...middleware)));
 window._ = _;
 window.actions = actions;
+window.getExternalLibs = () => ({
+  _,
+  R,
+  Promise
+});
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('reducers/rootReducer', () => {

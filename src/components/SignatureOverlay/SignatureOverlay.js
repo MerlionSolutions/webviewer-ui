@@ -45,6 +45,7 @@ class SignatureOverlay extends React.PureComponent {
   componentDidMount() {
     this.signatureTool.on('signatureSaved', this.onSignatureSaved);
     this.signatureTool.on('signatureDeleted', this.onSignatureDeleted);
+    this.signatureTool.on('setSignature', this.setSignature);
     core.addEventListener('annotationChanged', this.onAnnotationChanged);
     window.addEventListener('resize', this.handleWindowResize);
   }
@@ -135,7 +136,6 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureDeleted = async () => {
-    console.log('onSignatureeleted');
     let savedSignatures = await this.signatureTool.getSavedSignatures();
     // NOTE: removing this as we don't save styles 
     // the saved signatures will have a different style than what we've saved in this component
@@ -195,12 +195,13 @@ class SignatureOverlay extends React.PureComponent {
     }));
   };
 
-  setSignature = index => {
+  setSignature = ({ index, height }) => {
     this.currentSignatureIndex = index;
 
-    const { annotation } = this.state.defaultSignatures[
-      this.currentSignatureIndex
-    ];
+    const { annotation } = this.state.defaultSignatures[this.currentSignatureIndex];
+    if (height && annotation) {
+      annotation.setHeight(height);
+    }
 
     core.setToolMode('AnnotationCreateSignature');
     this.signatureTool.setSignature(annotation);
@@ -271,7 +272,7 @@ class SignatureOverlay extends React.PureComponent {
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
-                onClick={() => this.setSignature(index)}
+                onClick={() => this.setSignature({ index })}
               >
                 <img src={imgSrc} />
               </div>
@@ -300,7 +301,7 @@ class SignatureOverlay extends React.PureComponent {
             <div className="default-signature" key={index}>
               <div
                 className="signature-image"
-                onClick={() => this.setSignature(index)}
+                onClick={() => this.setSignature({ index })}
               >
                 <img src={imgSrc} />
               </div>
