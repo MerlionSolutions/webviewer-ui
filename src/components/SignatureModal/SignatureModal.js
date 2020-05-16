@@ -60,6 +60,7 @@ const SignatureModal = () => {
     signatureTool.clearLocation();
     dispatch(actions.closeElement('signatureModal'));
     core.setToolMode(defaultTool);
+    signatureTool.trigger('signatureModalClosed');
   };
 
   const toggleSaveSignature = () => {
@@ -68,17 +69,19 @@ const SignatureModal = () => {
 
   const createSignature = () => {
     if (!signatureTool.isEmptySignature()) {
+      signatureTool.trigger('signatureCreated');
+      
       if (saveSignature) {
         signatureTool.annot.setCustomData('type', sigType);
         signatureTool.saveSignatures(signatureTool.annot);
       }
+      
       if (signatureTool.hasLocation()) {
-        console.log('this.signature.location', signatureTool.location);
-
         signatureTool.addSignature();
       } else {
         signatureTool.showPreview();
       }
+
       dispatch(actions.closeElement('signatureModal'));
     }
   };
