@@ -119,7 +119,6 @@ const TextSignature = ({
 
   useEffect(() => {
     if (isTabPanelSelected) {
-      setValue('');
       inputRef.current?.focus();
 
       if (isIOS) {
