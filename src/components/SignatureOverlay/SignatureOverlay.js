@@ -258,7 +258,6 @@ class SignatureOverlay extends React.PureComponent {
 
     const defSigs = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'signature' && author === this.props.userName);
     const defInitials = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'initials' && author === this.props.userName);
-    console.log('this.props.userName', this.props.userName);
 
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
@@ -308,7 +307,7 @@ class SignatureOverlay extends React.PureComponent {
               defInitials.length >= maxInitialsCount
                 ? ' disabled'
                 : ' enabled'
-              }`}
+            }`}
             onClick={this.openInitialsModal}
           >
             Add Initials
