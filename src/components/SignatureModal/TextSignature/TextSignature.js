@@ -42,10 +42,11 @@ const TextSignature = ({
     if (clickedSigWidgetId) {
       const sigWidget = core.getAnnotationById(clickedSigWidgetId);
       if (sigWidget) {
-        const displayAuthor = core.getDisplayAuthor(sigWidget);
-        if (displayAuthor) {
-          // setValue(displayAuthor);
-        }
+        // const displayAuthor = core.getDisplayAuthor(sigWidget);
+        // if (displayAuthor) {
+        //   setValue(displayAuthor);
+        // }
+        setValue('');
       }
     }
   }, [clickedSigWidgetId]);
@@ -114,11 +115,11 @@ const TextSignature = ({
     if (isModalOpen && !clickedSigWidgetId) {
       setValue('');
     }
-    if (!isModalOpen) {
-      setValue('');
-    }
+    // if (!isModalOpen) {
+    //   setValue('');
+    // }
 
-  }, [isModalOpen]);
+  }, [isModalOpen, clickedSigWidgetId]);
 
   useEffect(() => {
     if (isTabPanelSelected) {
