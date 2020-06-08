@@ -163,17 +163,20 @@ class SignatureOverlay extends React.PureComponent {
       annotations.length === 1 &&
       annotations[0].ToolName === 'AnnotationCreateSignature'
     ) {
-      const newStyles = getAnnotationStyles(annotations[0]);
-      let annotationsWithNewStyles = this.state.defaultSignatures.map(
-        ({ annotation }) => Object.assign(annotation, newStyles),
-      );
-      annotationsWithNewStyles = await this.getSignatureDataToStore(
-        annotationsWithNewStyles,
-      );
+      console.log(annotations[0]);
+      if (!annotations[0].ImageData) {
+        const newStyles = getAnnotationStyles(annotations[0]);
+        let annotationsWithNewStyles = this.state.defaultSignatures.map(
+          ({ annotation }) => Object.assign(annotation, newStyles),
+        );
+        annotationsWithNewStyles = await this.getSignatureDataToStore(
+          annotationsWithNewStyles,
+        );
 
-      this.setState({
-        defaultSignatures: annotationsWithNewStyles,
-      });
+        this.setState({
+          defaultSignatures: annotationsWithNewStyles,
+        });
+      }
     }
   };
 
