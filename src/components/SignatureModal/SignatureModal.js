@@ -58,6 +58,8 @@ const SignatureModal = () => {
 
   const closeModal = () => {
     signatureTool.clearLocation();
+    signatureTool.setSignature(null);
+    _setSaveSignature(false);
     dispatch(actions.closeElement('signatureModal'));
     core.setToolMode(defaultTool);
     signatureTool.trigger('signatureModalClosed');

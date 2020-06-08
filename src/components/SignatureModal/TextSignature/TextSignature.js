@@ -44,7 +44,7 @@ const TextSignature = ({
       if (sigWidget) {
         const displayAuthor = core.getDisplayAuthor(sigWidget);
         if (displayAuthor) {
-          setValue(displayAuthor);
+          // setValue(displayAuthor);
         }
       }
     }
@@ -112,6 +112,9 @@ const TextSignature = ({
 
   useEffect(() => {
     if (isModalOpen && !clickedSigWidgetId) {
+      setValue('');
+    }
+    if (!isModalOpen) {
       setValue('');
     }
 
