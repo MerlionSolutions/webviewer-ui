@@ -151,6 +151,8 @@ export default store => {
 
   window._ = _;
   window.R = R;
+  window.store = store;
+  window.docViewer.store = store;
 
   window.readerControl = {
     _,
