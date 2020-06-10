@@ -8,7 +8,6 @@ import { isIOS } from 'helpers/device';
 import selectors from 'selectors';
 import Select from 'react-select';
 import './TextSignature.scss';
-import { useCustomCompareEffect } from 'react-use';
 
 const propTypes = {
   isModalOpen: PropTypes.bool,
