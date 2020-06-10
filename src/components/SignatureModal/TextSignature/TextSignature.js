@@ -117,14 +117,6 @@ const TextSignature = ({
     }
   }, [isModalOpen, clickedSigWidgetId]);
 
-
-  // useCustomCompareEffect(() => {
-  //   if (!isModalOpen) {
-  //     setValue('');
-  //   }
-  // }, [isModalOpen], (prevDeps, nextDeps) => ( prevDeps === nextDeps));
-
-
   useEffect(() => {
     if (isTabPanelSelected) {
       inputRef.current?.focus();
