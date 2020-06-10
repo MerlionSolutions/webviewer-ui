@@ -43,10 +43,10 @@ const TextSignature = ({
     if (clickedSigWidgetId) {
       const sigWidget = core.getAnnotationById(clickedSigWidgetId);
       if (sigWidget) {
-        // const displayAuthor = core.getDisplayAuthor(sigWidget);
-        // if (displayAuthor) {
-        //   setValue(displayAuthor);
-        // }
+        const displayAuthor = core.getDisplayAuthor(sigWidget);
+        if (displayAuthor) {
+          setValue(displayAuthor);
+        }
         setValue('');
       }
     }
@@ -113,17 +113,17 @@ const TextSignature = ({
   }, [isModalOpen, isTabPanelSelected, setSignature]);
 
   useEffect(() => {
-    if (isModalOpen && !clickedSigWidgetId) {
+    if (isModalOpen) {
       setValue('');
     }
   }, [isModalOpen, clickedSigWidgetId]);
 
 
-  useCustomCompareEffect(() => {
-    if (!isModalOpen) {
-      setValue('');
-    }
-  }, [isModalOpen], (prevDeps, nextDeps) => ( prevDeps === nextDeps));
+  // useCustomCompareEffect(() => {
+  //   if (!isModalOpen) {
+  //     setValue('');
+  //   }
+  // }, [isModalOpen], (prevDeps, nextDeps) => ( prevDeps === nextDeps));
 
 
   useEffect(() => {
