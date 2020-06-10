@@ -47,7 +47,6 @@ const TextSignature = ({
         if (displayAuthor) {
           setValue(displayAuthor);
         }
-        setValue('');
       }
     }
   }, [clickedSigWidgetId]);
