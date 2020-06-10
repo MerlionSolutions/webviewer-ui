@@ -8,6 +8,7 @@ import { isIOS } from 'helpers/device';
 import selectors from 'selectors';
 import Select from 'react-select';
 import './TextSignature.scss';
+import { useCustomCompareEffect } from 'react-use';
 
 const propTypes = {
   isModalOpen: PropTypes.bool,
@@ -115,11 +116,15 @@ const TextSignature = ({
     if (isModalOpen && !clickedSigWidgetId) {
       setValue('');
     }
-    // if (!isModalOpen) {
-    //   setValue('');
-    // }
-
   }, [isModalOpen, clickedSigWidgetId]);
+
+
+  useCustomCompareEffect(() => {
+    if (!isModalOpen) {
+      setValue('');
+    }
+  }, [isModalOpen], (prevDeps, nextDeps) => ( prevDeps === nextDeps));
+
 
   useEffect(() => {
     if (isTabPanelSelected) {
