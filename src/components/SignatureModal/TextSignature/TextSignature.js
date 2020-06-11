@@ -111,11 +111,10 @@ const TextSignature = ({
   }, [isModalOpen, isTabPanelSelected, setSignature]);
 
   useEffect(() => {
-    if (isModalOpen && !clickedSigWidgetId) {
+    if (isModalOpen) {
       setValue('');
     }
-
-  }, [isModalOpen]);
+  }, [isModalOpen, clickedSigWidgetId]);
 
   useEffect(() => {
     if (isTabPanelSelected) {
