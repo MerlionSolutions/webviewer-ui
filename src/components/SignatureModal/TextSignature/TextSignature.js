@@ -16,6 +16,10 @@ const propTypes = {
 };
 
 const FONT_SIZE = 100;
+const colorOptions = [
+  { value: '#4B92DB', label: 'Blue ink' },
+  { value: '#000', label: 'Black ink' },
+];
 
 const TextSignature = ({
   isModalOpen,
@@ -24,6 +28,7 @@ const TextSignature = ({
 }) => {
   const fonts = useSelector(state => selectors.getSignatureFonts(state));
   const [value, setValue] = useState(core.getCurrentUser());
+  const [color, setColor] = useState(colorOptions[0].value);
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef();
   const canvasRef = useRef();
@@ -65,7 +70,7 @@ const TextSignature = ({
     };
 
     const setFont = () => {
-      ctx.fillStyle = '#000';
+      ctx.fillStyle = color;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = `${FONT_SIZE * multiplier}px ${fonts[activeIndex]}`;
@@ -110,6 +115,16 @@ const TextSignature = ({
 
   return (
     <div className="text-signature">
+      <select 
+        className="text-signature-select"
+        onChange={evt => setColor(evt.target.value)}
+      >
+        {
+          colorOptions.map(color => (
+            <option key={color.value} value={color.value}>{color.label}</option>
+          ))
+        }
+      </select>
       <input
         className="text-signature-input"
         ref={inputRef}
@@ -129,7 +144,7 @@ const TextSignature = ({
                 'text-signature-text': true,
                 active: index === activeIndex,
               })}
-              style={{ fontFamily: font, fontSize: FONT_SIZE }}
+              style={{ fontFamily: font, fontSize: FONT_SIZE, color }}
               onClick={() => setActiveIndex(index)}
             >
               {value}
