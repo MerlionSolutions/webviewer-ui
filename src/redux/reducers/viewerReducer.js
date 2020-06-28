@@ -236,6 +236,53 @@ export default initialState => (state = initialState, action) => {
       return { ...state, annotationContentOverlayHandler: payload.annotationContentOverlayHandler };
     case 'SET_MOUSE_WHEEL_ZOOM':
       return { ...state, enableMouseWheelZoom: payload.enableMouseWheelZoom };
+    case 'SET_MAX_INITIALS_COUNT':
+      return { ...state, maxInitialsCount: payload.maxInitialsCount };
+
+    case 'OPEN_SIGNATURE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          signatureOverlay: false,
+          signatureModal: true
+        },
+        sigType: payload.type,
+        clickedSigWidget: payload.clickedSigWidget
+      };
+
+    case 'OPEN_SIGNATURE_OVERLAY':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          signatureOverlay: true,
+          signatureModal: false
+        },
+        sigType: payload.type
+      };
+
+
+
+    case 'HIDE_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          messageModal: false
+        },
+        message: ''
+      };
+    case 'OPEN_MESSAGE_MODAL':
+      return {
+        ...state,
+        openElements: {
+          ...state.openElements,
+          messageModal: true
+        },
+        message: payload.message
+      };
+
     default:
       return state;
   }

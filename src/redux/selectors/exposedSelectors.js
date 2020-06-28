@@ -222,3 +222,9 @@ export const isProgrammaticSearchFull = state =>
   state.search.isProgrammaticSearchFull;
 
 export const getNoteTransformFunction = state => state.viewer.noteTransformFunction;
+
+
+export const getMaxInitialsCount = state => state.viewer.maxInitialsCount;
+export const getSigType = state => state.viewer.sigType;
+export const getClickedSigWidget = state => state.viewer.clickedSigWidget;
+export const getModalMessage = state => state.viewer.message;

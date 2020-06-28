@@ -250,3 +250,51 @@ export const setAnnotationContentOverlayHandler = annotationContentOverlayHandle
   type: 'SET_ANNOTATION_CONTENT_OVERLAY_HANDLER',
   payload: { annotationContentOverlayHandler }
 });
+
+
+export const setSigType = type => dispatch => dispatch({
+  type: 'SET_SIG_MODAL_TYPE',
+  payload: { type }
+});
+
+export const openSignatureModal = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_MODAL',
+    payload: { type }
+  });
+};
+export const openSignatureOverlay = (type = 'signature') => dispatch => {
+  dispatch({
+    type: 'OPEN_SIGNATURE_OVERLAY',
+    payload: { type }
+  });
+};
+
+
+export const registerHeaderGroup = (headerGroup, items) => ({
+  type: 'REGISTER_HEADER_GROUP',
+  payload: { headerGroup, items },
+});
+
+export const hideMessageModal = () => dispatch => {
+  dispatch({
+    type: 'HIDE_MESSAGE_MODAL',
+  });
+};
+export const showMessageModal = message => dispatch => {
+  dispatch({
+    type: 'OPEN_MESSAGE_MODAL',
+    payload: { message }
+  });
+};
+
+export const deletePageIndex = pageIndexDeleted => ({
+  type: 'REMOVE_PAGE_INDEX',
+  payload: { pageIndexDeleted },
+});
+
+
+export const setMaxInitialsCount = maxInitialsCount => ({
+  type: 'SET_MAX_INITIALS_COUNT',
+  payload: { maxInitialsCount },
+});
