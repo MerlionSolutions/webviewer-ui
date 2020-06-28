@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { isMobile } from 'helpers/device';
 import Button from 'components/Button';
 import ActionButton from 'components/ActionButton';
 import { Tabs, Tab, TabPanel } from 'components/Tabs';
@@ -18,13 +19,14 @@ import selectors from 'selectors';
 import './SignatureModal.scss';
 
 const SignatureModal = () => {
-  const [isDisabled, isSaveSignatureDisabled, isOpen] = useSelector(state => [
+  const [isDisabled, isSaveSignatureDisabled, isOpen, sigType] = useSelector(state => [
     selectors.isElementDisabled(state, 'signatureModal'),
     selectors.isElementDisabled(state, 'saveSignatureButton'),
     selectors.isElementOpen(state, 'signatureModal'),
+    selectors.getSigType(state)
   ]);
   const dispatch = useDispatch();
-  const [saveSignature, setSaveSignature] = useState(false);
+  const [saveSignature, setSaveSignature] = useState(true);
   const [t] = useTranslation();
   const signatureTool = core.getTool('AnnotationCreateSignature');
 
@@ -100,9 +102,9 @@ const SignatureModal = () => {
               <Tab dataElement="textSignaturePanelButton">
                 <Button label={t('action.type')} />
               </Tab>
-              <Tab dataElement="imageSignaturePanelButton">
+              {/* <Tab dataElement="imageSignaturePanelButton">
                 <Button label={t('action.upload')} />
-              </Tab>
+              </Tab> */}
             </div>
             <ActionButton
               dataElement="signatureModalCloseButton"
@@ -131,6 +133,24 @@ const SignatureModal = () => {
             />
           </TabPanel>
         </Tabs>
+        {
+          !isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                  Customer agrees to all terms and conditions contained in the eNotaryLog
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                  the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                and Communications which can be found for review on the eNotaryLog website.
+                </p>
+                <p>
+                  By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
 
         <div
           className="footer"
@@ -149,14 +169,32 @@ const SignatureModal = () => {
                 onChange={toggleSaveSignature}
               />
               <label htmlFor="default-signature">
-                {t('option.signatureModal.saveSignature')}
+                {(sigType === 'signature') ? t('option.signatureModal.saveSignature') : 'Save Initials'}
               </label>
             </div>
           )}
           <div className="signature-create" onClick={createSignature}>
-            {t('action.create')}
+            {sigType === 'signature' ? 'Accept and Create Signature' : 'Accept and Create Initials'}
           </div>
         </div>
+        {
+          isMobile && (
+            <div className="footer">
+              <div>
+                <p>
+                  Customer agrees to all terms and conditions contained in the eNotaryLog
+                  <a target="_blank" href="/information/terms-conditions-customers">Terms and Conditions</a>,
+                  the <a target="_blank" href="/information/privacy-policy-customers">privacy policy</a> and the
+                  <a target="_blank" href="/static/pdf/esign_policy.pdf">Consent to use Electronic Signatures, Records</a>,
+                  and Communications which can be found for review on the eNotaryLog website.
+                </p>
+                <p>
+                  By clicking “ACCEPT”, you acknowledge that you have read and affirmatively agree to the terms set forth in these agreements.
+                </p>
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   );

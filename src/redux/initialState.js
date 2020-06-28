@@ -216,7 +216,7 @@ export default {
     selectedSignatureIndex: 0,
     annotationContentOverlayHandler: null,
     message: '',
-    sigType: '',
+    sigType: 'signature',
     clickedSigWidget: '',
     maxInitialsCount: 2 
   },
