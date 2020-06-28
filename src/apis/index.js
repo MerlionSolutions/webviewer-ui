@@ -137,9 +137,29 @@ import unselectThumbnailPages from './unselectThumbnailPages';
 import setSearchResults from './setSearchResults';
 import setActiveResult from './setActiveResult';
 import setAnnotationContentOverlayHandler from './setAnnotationContentOverlayHandler';
+import showMessage from './showMessage';
+import hideMessage from './hideMessage';
+import Promise from 'bluebird';
+
+
+import _ from 'lodash';
+import * as R from 'ramda';
 
 export default store => {
+  window._ = _;
+  window.R = R;
+  window.store = store;
+  window.docViewer.store = store;
+                                                                                                                                                             
   window.readerControl = {
+    _,
+    R,
+    store,
+    getExternalLibs: () => ({
+      Promise,
+      R,
+      _
+    }),
     docViewer: window.docViewer,
     FitMode,
     LayoutMode,
@@ -285,5 +305,7 @@ export default store => {
     updateOutlines: updateOutlines(store),
     getBBAnnotManager,
     selectors: getSelectors(store),
+    showMessage: showMessage(store),
+    hideMessage: hideMessage(store),
   };
 };
