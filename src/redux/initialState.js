@@ -15,6 +15,8 @@ export default {
     disabledElements: {},
     openElements: {
       header: true,
+      progressModal: false,
+      messageModal: false
     },
     headers: {
       default: [
@@ -212,6 +214,10 @@ export default {
     savedSignatures: [],
     selectedSignatureIndex: 0,
     annotationContentOverlayHandler: null,
+    message: '',
+    sigType: '',
+    clickedSigWidget: '',
+    maxInitialsCount: 2 
   },
   search: {
     listeners: [],
