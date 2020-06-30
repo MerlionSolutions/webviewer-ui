@@ -13,6 +13,7 @@ import getAnnotationStyles from 'helpers/getAnnotationStyles';
 import actions from 'actions';
 import selectors from 'selectors';
 import _ from 'lodash';
+import Promise from 'bluebird';
 
 import './SignatureOverlay.scss';
 
@@ -24,6 +25,7 @@ class SignatureOverlay extends React.PureComponent {
     closeElements: PropTypes.func.isRequired,
     closeElement: PropTypes.func.isRequired,
     openElement: PropTypes.func.isRequired,
+    setSigType: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired,
     maxSignaturesCount: PropTypes.number.isRequired,
     maxInitialsCount: PropTypes.number.isRequired,
@@ -111,37 +113,22 @@ class SignatureOverlay extends React.PureComponent {
   };
 
   onSignatureSaved = async annotations => {
-    // const numberOfSignaturesToRemove = this.state.defaultSignatures.length + annotations.length - this.props.maxSignaturesCount;
-    
-    // const defaultSignatures = [...this.state.defaultSignatures];
-
-    // if (numberOfSignaturesToRemove > 0) {
-    //   // to keep the UI sync with the signatures saved in the tool
-    //   for (let i = 0; i < numberOfSignaturesToRemove; i++) {
-    //     this.signatureTool.deleteSavedSignature(0);
-    //   }
-
-    //   defaultSignatures.splice(0, numberOfSignaturesToRemove);
-    // }
-
     const savedSignatures = await this.getSignatureDataToStore(annotations);
     this.setState({
       defaultSignatures: this.state.defaultSignatures.concat(savedSignatures),
     });
   };
 
-  onSignatureDeleted = async(annotation, index) => {
+  onSignatureDeleted = async annotation => {
     if (!this.state.defaultSignatures.length) {
       return;
     }
 
-    const savedSignatures = [...this.state.defaultSignatures];
-    savedSignatures.splice(index, 1);
+    const defSigs = _.filter(this.state.defaultSignatures, ({ origId }) => origId !== annotation.Id);
+    // savedSignatures.splice(index, 1);
 
     this.setState({
-      defaultSignatures: await this.getSignatureDataToStore(
-        savedSignatures.map(({ annotation }) => annotation)
-      ),
+      defaultSignatures: defSigs,
     });
   };
 
@@ -152,10 +139,7 @@ class SignatureOverlay extends React.PureComponent {
       annotations[0].ToolName === 'AnnotationCreateSignature'
     ) {
       const newStyles = getAnnotationStyles(annotations[0]);
-      let annotationsWithNewStyles = this.state.defaultSignatures.map(({ annotation }) =>
-        Object.assign(annotation, newStyles)
-      );
-      annotationsWithNewStyles = await this.getSignatureDataToStore(annotationsWithNewStyles);
+      const annotationsWithNewStyles = this.state.defaultSignatures.map(({ annotation }) => Object.assign(annotation, newStyles));
 
       this.setState({
         defaultSignatures: annotationsWithNewStyles,
@@ -170,22 +154,20 @@ class SignatureOverlay extends React.PureComponent {
     // copy the annotation because we need to mutate the annotation object later if there're any styles changes
     // and we don't want the original annotation to be mutated as well
     // since it's been added to the canvas
-    const copiedAnnotations = annotations.map(annot => {
+    return await Promise.map(annotations, async annot => {
       const copy = core.getAnnotationCopy(annot);
 
-      copy.CustomData.origId = annot.CustomData.origId || annot.Id;
+      copy.CustomData.origId = annot.Id;
       copy.CustomData.type = annot.CustomData.type;
-      return copy;
+      const preview = await this.signatureTool.getPreview(copy);
+      return {
+        annotation: copy,
+        author: copy.Author,
+        id: copy.Id,
+        origId: annot.CustomData.origId || annot.Id,
+        imgSrc: preview
+      };
     });
-    const previews = await Promise.all(copiedAnnotations.map(annotation => this.signatureTool.getPreview(annotation)));
-
-    return copiedAnnotations.map((annotation, i) => ({
-      annotation,
-      author: annotation.Author,
-      id: annotations[i].Id,
-      origId: annotations[i].CustomData.origId || annotations[i].Id,
-      imgSrc: previews[i],
-    }));
   };
 
   setSignature = id => {
@@ -206,8 +188,16 @@ class SignatureOverlay extends React.PureComponent {
 
   deleteDefaultSignature = id => {
 
+    const sigToDelete = _.find(this.state.defaultSignatures, { id });
+    if (!sigToDelete) {
+      console.log('sigToDelete not found!');
+      return;
+    }
+
+    const { origId } = sigToDelete;
+    
     const savedSigs = this.signatureTool.getSavedSignatures();
-    const toDelIndex = _.findIndex(savedSigs, sig => sig.Id === id);
+    const toDelIndex = _.findIndex(savedSigs, sig => sig.Id === origId);
     if (toDelIndex < 0) {
       console.error('could not find signature to delete!');
       return;
@@ -259,7 +249,7 @@ class SignatureOverlay extends React.PureComponent {
     return (
       <div className={className} ref={this.overlay} style={{ left, right }}>
         <div className="default-signatures-container">
-          {defSigs.map(({ origId: id, imgSrc }, index) => (
+          {defSigs.map(({ id, imgSrc }, index) => (
             <div className="default-signature" key={index}>
               <div className="signature-image" onClick={() => this.setSignature(id)}>
                 <img src={imgSrc} />
@@ -279,7 +269,7 @@ class SignatureOverlay extends React.PureComponent {
           </div>
         </div>
         <div className="default-signatures-container">
-          {defInitials.map(({ origId: id, imgSrc }, index) => (
+          {defInitials.map(({ id, imgSrc }, index) => (
             <div className="default-signature" key={index}>
               <div className="signature-image" onClick={() => this.setSignature(id)}>
                 <img src={imgSrc} />
