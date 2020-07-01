@@ -2,6 +2,7 @@ import core from 'core';
 import isDataElementPanel from 'helpers/isDataElementPanel';
 import fireEvent from 'helpers/fireEvent';
 import { getMinZoomLevel, getMaxZoomLevel } from 'constants/zoomFactors';
+import _ from 'lodash';
 
 // viewer
 export const enableAllElements = () => ({
@@ -9,6 +10,7 @@ export const enableAllElements = () => ({
   payload: {},
 });
 export const openElement = dataElement => (dispatch, getState) => {
+  console.log('openElement');
   const state = getState();
 
   const isElementDisabled =
@@ -41,6 +43,7 @@ export const openElement = dataElement => (dispatch, getState) => {
   }
 };
 export const openElements = dataElements => dispatch => {
+  console.log('openElements');
   if (typeof dataElements === 'string') {
     dispatch(openElement(dataElements));
   } else {
@@ -257,10 +260,10 @@ export const setSigType = type => dispatch => dispatch({
   payload: { type }
 });
 
-export const openSignatureModal = (type = 'signature') => dispatch => {
+export const openSignatureModal = (type = 'signature', clickedSigWidget) => dispatch => {
   dispatch({
     type: 'OPEN_SIGNATURE_MODAL',
-    payload: { type }
+    payload: { type, clickedSigWidget }
   });
 };
 export const openSignatureOverlay = (type = 'signature') => dispatch => {

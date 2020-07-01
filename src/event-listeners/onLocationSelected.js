@@ -3,9 +3,43 @@ import { isTabletOrMobile } from 'helpers/device';
 import actions from 'actions';
 import selectors from 'selectors';
 
-export default store => () => {
+export default store => evt => {
   const signatureTool = core.getTool('AnnotationCreateSignature');
 
+  const savedSigs = signatureTool.getSavedSignatures();
+  const annotManager = core.getAnnotationManager();
+  const annots = annotManager.getAnnotationsList();
+  const currUser = annotManager.getCurrentUser();
+
+  const sigWig = _.chain(annots)
+    .filter(el => el instanceof Annotations.SignatureWidgetAnnotation)
+    .filter(el => el.X <= evt.x && el.X + el.Width > evt.x)
+    .filter(el => el.Y <= evt.y && el.Y + el.Height > evt.y)
+    .head()
+    .value();
+
+  if (sigWig) {
+    const [sigwigType, , id] = sigWig.getField().name.split('.');
+    const savedSig = _.find(savedSigs, sig => sig.CustomData.type === sigwigType && sig.Author === currUser);
+    if (savedSig) {
+      const sig = annotManager.getAnnotationCopy(savedSig);
+      sig.CustomData = _.cloneDeep(savedSig.CustomData);
+
+      sig.CustomData.sigWigId = id;
+      signatureTool.setSignature(sig);
+      
+      return new Promise(res => setTimeout(() => {
+        if (!signatureTool.isEmptySignature()) {
+          signatureTool.addSignature();
+          return res();
+        }
+      }, 100));
+    } else {
+      return store.dispatch(actions.openSignatureModal(sigwigType ? sigwigType : 'signature', sigWig.Id));
+    }
+  }
+
+  
   if (!signatureTool.isEmptySignature()) {
     signatureTool.addSignature();
   } else {
