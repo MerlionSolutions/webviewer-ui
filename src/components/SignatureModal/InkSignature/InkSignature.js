@@ -48,12 +48,6 @@ const InkSignature = ({
       }
     });
   }, [clearCanvas]);
-  
-  useEffect(() => {
-    if (!isModalOpen && canClear) {
-      clearCanvas();
-    }
-  }, [isModalOpen, clearCanvas, canClear]);
 
   useEffect(() => {
     if (isModalOpen && isTabPanelSelected) {

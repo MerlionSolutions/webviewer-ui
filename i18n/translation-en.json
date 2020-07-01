@@ -257,7 +257,8 @@
       "bold": "Bold",
       "italic": "Italic",
       "underline": "Underline",
-      "strikeout": "Strikeout"
+      "strikeout": "Strikeout",
+      "center_align": "Align Center"
     }
   },
   "warning": {
