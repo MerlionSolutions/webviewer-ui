@@ -60,6 +60,7 @@ const SignatureModal = () => {
     _setSaveSignature(false);
     dispatch(actions.closeElement('signatureModal'));
     core.setToolMode(defaultTool);
+    signatureTool.trigger('signatureModalClosed');
   };
 
   const toggleSaveSignature = () => {
