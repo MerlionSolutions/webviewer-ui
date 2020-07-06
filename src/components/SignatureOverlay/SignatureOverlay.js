@@ -139,7 +139,13 @@ class SignatureOverlay extends React.PureComponent {
       annotations[0].ToolName === 'AnnotationCreateSignature'
     ) {
       const newStyles = getAnnotationStyles(annotations[0]);
-      const annotationsWithNewStyles = this.state.defaultSignatures.map(({ annotation }) => Object.assign(annotation, newStyles));
+      console.log('this.state.defaultSignatures', this.state.defaultSignatures);
+      const annotationsWithNewStyles = this.state.defaultSignatures.map(({ annotation, ...rest }) => {
+        return {
+          ...rest,
+          annotation: Object.assign(annotation, newStyles),
+        };
+      });
 
       this.setState({
         defaultSignatures: annotationsWithNewStyles,
@@ -165,6 +171,7 @@ class SignatureOverlay extends React.PureComponent {
         author: copy.Author,
         id: copy.Id,
         origId: annot.CustomData.origId || annot.Id,
+        type: annot.CustomData.type,
         imgSrc: preview
       };
     });
@@ -218,7 +225,7 @@ class SignatureOverlay extends React.PureComponent {
     this.props.setSigType('signature');
 
 
-    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'signature');
+    const sigs = _.filter(defaultSignatures, ({ type }) => type === 'signature');
     if (sigs.length < maxSignaturesCount) {
       openSignatureModal('signature');
     }
@@ -229,7 +236,7 @@ class SignatureOverlay extends React.PureComponent {
     const { openSignatureModal, maxInitialsCount } = this.props;
     this.props.setSigType('initials');
  
-    const sigs = _.filter(defaultSignatures, el => el.annotation.CustomData.type === 'initials');
+    const sigs = _.filter(defaultSignatures, ({ type }) => type === 'initials');
     if (sigs.length < maxInitialsCount) {
       openSignatureModal('initials');
     }
@@ -239,8 +246,8 @@ class SignatureOverlay extends React.PureComponent {
     const { left, right, defaultSignatures } = this.state;
     const { t, isDisabled, maxSignaturesCount, maxInitialsCount } = this.props;
     const className = getClassName('Overlay SignatureOverlay', this.props);
-    const defSigs = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'signature' && author === this.props.userName);
-    const defInitials = _.filter(defaultSignatures, ({ annotation, author }) => annotation.CustomData.type === 'initials' && author === this.props.userName);
+    const defSigs = _.filter(defaultSignatures, ({ annotation, type, author }) => type === 'signature' && author === this.props.userName);
+    const defInitials = _.filter(defaultSignatures, ({ annotation, type, author }) => type === 'initials' && author === this.props.userName);
 
     if (isDisabled) {
       return null;
