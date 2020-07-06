@@ -541,6 +541,7 @@ class ThumbnailsPanel extends React.PureComponent {
       </div>
     );
   }
+
 }
 
 const mapDispatchToProps = dispatch => ({

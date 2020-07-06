@@ -1,5 +1,9 @@
 import i18next from 'i18next';
 
+import core from 'core';
+import selectors from 'selectors';
+import actions from 'actions';
+
 import LayoutMode from 'constants/layoutMode';
 import FitMode from 'constants/fitMode';
 import Feature from 'constants/feature';
@@ -142,6 +146,7 @@ import hideMessage from './hideMessage';
 import Promise from 'bluebird';
 
 
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as R from 'ramda';
 
@@ -154,12 +159,20 @@ export default store => {
   window.readerControl = {
     _,
     R,
+
+    core,
     store,
+    connect,
+    selectors,
+    actions,
+
     getExternalLibs: () => ({
       Promise,
       R,
       _
     }),
+
+
     docViewer: window.docViewer,
     FitMode,
     LayoutMode,
