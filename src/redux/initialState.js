@@ -247,7 +247,7 @@ export default {
     loadingProgress: 0,
   },
   user: {
-    name: getHashParams('user', 'Guest'),
+    name: getHashParams('user', ''),
     isAdmin: getHashParams('admin', false),
   },
   advanced: {
