@@ -165,10 +165,14 @@ class SignatureOverlay extends React.PureComponent {
 
       copy.CustomData.origId = annot.Id;
       copy.CustomData.type = annot.CustomData.type;
+      const author = annot.CustomData.signerId || copy.Author;
+      if (annot.CustomData.signerId){
+        copy.CustomData.signerId = annot.CustomData.signerId;
+      }
       const preview = await this.signatureTool.getPreview(copy);
       return {
         annotation: copy,
-        author: copy.Author,
+        author,
         id: copy.Id,
         origId: annot.CustomData.origId || annot.Id,
         type: annot.CustomData.type,

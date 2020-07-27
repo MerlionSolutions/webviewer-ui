@@ -30,6 +30,7 @@ import ErrorModal from 'components/ErrorModal';
 import WarningModal from 'components/WarningModal';
 import PasswordModal from 'components/PasswordModal';
 import ProgressModal from 'components/ProgressModal';
+import MessageModal from 'components/MessageModal';
 import CalibrationModal from 'components/CalibrationModal';
 import LinkModal from 'components/LinkModal';
 import FilePickerHandler from 'components/FilePickerHandler';
@@ -93,6 +94,8 @@ const App = ({ removeEventHandlers }) => {
         <SignatureModal />
         <PrintModal />
         <LoadingModal />
+        <MessageModal />
+
         <ErrorModal />
         <WarningModal />
         <PasswordModal />
