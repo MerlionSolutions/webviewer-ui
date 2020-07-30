@@ -205,7 +205,7 @@ export default {
       from: ['in', 'mm', 'cm', 'pt'],
       to: ['in', 'mm', 'cm', 'pt', 'ft', 'm', 'yd', 'km', 'mi'],
     },
-    maxSignaturesCount: 2,
+    maxSignaturesCount: 1,
     signatureFonts: ['GreatVibes-Regular'],
     leftPanelWidth: 300,
     isReplyDisabledFunc: null,
@@ -218,7 +218,7 @@ export default {
     message: '',
     sigType: 'signature',
     clickedSigWidget: '',
-    maxInitialsCount: 2 
+    maxInitialsCount: 1 
   },
   search: {
     listeners: [],

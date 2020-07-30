@@ -26,10 +26,15 @@ export default store => evt => {
       sig.CustomData = _.cloneDeep(savedSig.CustomData);
 
       sig.CustomData.sigWigId = id;
+      sig.CustomData.widgetId = id;
+      sig.setCustomData('widgetId', id);
       signatureTool.setSignature(sig);
       
       return new Promise(res => setTimeout(() => {
         if (!signatureTool.isEmptySignature()) {
+          signatureTool.one('annotationAdded', annot => {
+            annot.CustomData = sig.CustomData;
+          });
           signatureTool.addSignature();
           return res();
         }

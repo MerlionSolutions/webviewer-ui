@@ -10,7 +10,6 @@ export const enableAllElements = () => ({
   payload: {},
 });
 export const openElement = dataElement => (dispatch, getState) => {
-  console.log('openElement');
   const state = getState();
 
   const isElementDisabled =
@@ -43,7 +42,6 @@ export const openElement = dataElement => (dispatch, getState) => {
   }
 };
 export const openElements = dataElements => dispatch => {
-  console.log('openElements');
   if (typeof dataElements === 'string') {
     dispatch(openElement(dataElements));
   } else {

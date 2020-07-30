@@ -123,6 +123,11 @@ class SignatureOverlay extends React.PureComponent {
     if (!this.state.defaultSignatures.length) {
       return;
     }
+    if (!annotation || !annotation.Id) {
+      this.setState({ defaultSignatures: [] }, () => {
+        return this.forceUpdate();
+      });
+    }
 
     const defSigs = _.filter(this.state.defaultSignatures, ({ origId }) => origId !== annotation.Id);
     // savedSignatures.splice(index, 1);
@@ -139,7 +144,6 @@ class SignatureOverlay extends React.PureComponent {
       annotations[0].ToolName === 'AnnotationCreateSignature'
     ) {
       const newStyles = getAnnotationStyles(annotations[0]);
-      console.log('this.state.defaultSignatures', this.state.defaultSignatures);
       const annotationsWithNewStyles = this.state.defaultSignatures.map(({ annotation, ...rest }) => {
         return {
           ...rest,
@@ -166,7 +170,7 @@ class SignatureOverlay extends React.PureComponent {
       copy.CustomData.origId = annot.Id;
       copy.CustomData.type = annot.CustomData.type;
       const author = annot.CustomData.signerId || copy.Author;
-      if (annot.CustomData.signerId){
+      if (annot.CustomData.signerId) {
         copy.CustomData.signerId = annot.CustomData.signerId;
       }
       const preview = await this.signatureTool.getPreview(copy);
