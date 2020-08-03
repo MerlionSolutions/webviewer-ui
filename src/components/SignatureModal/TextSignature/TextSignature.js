@@ -32,12 +32,13 @@ const TextSignature = ({
     selectors.getUserName(state),
   ]);
 
-  const [value, setValue] = useState(userName);
+  const [value, setValue] = useState('');
   const [color, setColor] = useState(colorOptions[0].value);
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef();
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
+
 
   // set 
   useEffect(() => {
@@ -52,6 +53,7 @@ const TextSignature = ({
         }
       }
     }
+    return () => setValue('');
   }, [clickedSigWidgetId]);
 
 
