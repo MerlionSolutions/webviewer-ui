@@ -99,19 +99,19 @@ export const Keys = {
   DOWN: 'down',
   SPACE: 'space',
   ESCAPE: 'escape',
-  P: 'p',
-  A: 'a',
-  C: 'c',
-  E: 'e',
-  F: 'f',
-  I: 'i',
-  L: 'l',
-  N: 'n',
-  O: 'o',
-  R: 'r',
-  Q: 'q',
-  T: 't',
-  S: 's',
+  // P: 'p',
+  // A: 'a',
+  // C: 'c',
+  // E: 'e',
+  // F: 'f',
+  // I: 'i',
+  // L: 'l',
+  // N: 'n',
+  // O: 'o',
+  // R: 'r',
+  // Q: 'q',
+  // T: 't',
+  // S: 's',
   G: 'g',
   H: 'h',
   K: 'k',
@@ -380,46 +380,46 @@ WebViewer(...)
       [`${Keys.P}`]: this.createToolHotkeyHandler(() => {
         setToolModeAndGroup(store, 'Pan');
       }),
-      [`${Keys.A}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateArrow');
-      }),
-      [`${Keys.C}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateCallout');
-      }),
-      [`${Keys.E}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationEraserTool');
-      }),
-      [`${Keys.F}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateFreeHand');
-      }),
-      [`${Keys.I}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateStamp');
-      }),
-      [`${Keys.L}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateLine');
-      }),
-      [`${Keys.N}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateSticky');
-      }),
-      [`${Keys.O}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateEllipse');
-      }),
-      [`${Keys.R}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateRectangle');
-      }),
-      [`${Keys.Q}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateRubberStamp');
-      }),
-      [`${Keys.T}`]: this.createToolHotkeyHandler(() => {
-        setToolModeAndGroup(store, 'AnnotationCreateFreeText');
-      }),
-      [`${Keys.S}`]: this.createToolHotkeyHandler(() => {
-        const sigToolButton = document.querySelector(
-          '[data-element="signatureToolButton"] .Button'
-        );
+      // [`${Keys.A}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateArrow');
+      // }),
+      // [`${Keys.C}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateCallout');
+      // }),
+      // [`${Keys.E}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationEraserTool');
+      // }),
+      // // [`${Keys.F}`]: this.createToolHotkeyHandler(() => {
+      // //   setToolModeAndGroup(store, 'AnnotationCreateFreeHand');
+      // // }),
+      // [`${Keys.I}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateStamp');
+      // }),
+      // [`${Keys.L}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateLine');
+      // }),
+      // [`${Keys.N}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateSticky');
+      // }),
+      // [`${Keys.O}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateEllipse');
+      // }),
+      // [`${Keys.R}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateRectangle');
+      // }),
+      // [`${Keys.Q}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateRubberStamp');
+      // }),
+      // [`${Keys.T}`]: this.createToolHotkeyHandler(() => {
+      //   setToolModeAndGroup(store, 'AnnotationCreateFreeText');
+      // }),
+      // [`${Keys.S}`]: this.createToolHotkeyHandler(() => {
+      //   const sigToolButton = document.querySelector(
+      //     '[data-element="signatureToolButton"] .Button'
+      //   );
 
-        sigToolButton?.click();
-      }),
+      //   sigToolButton?.click();
+      // }),
       [`${Keys.G}`]: this.createToolHotkeyHandler(() => {
         if (core.getSelectedText()) {
           createTextAnnotationAndSelect(dispatch, window.Annotations.TextSquigglyAnnotation);
