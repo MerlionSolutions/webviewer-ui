@@ -25,44 +25,39 @@ const loadScript = (scriptSrc, warning) =>
 // ignore subsequent messages after successfully loads a config file
 const loadConfig = () =>
   new Promise(resolve => {
-    if (window.parent === window) {
-      // resolve immediately if we are developing the UI on its own
-      resolve();
-    } else {
-      window.addEventListener('message', async function loadConfig(e) {
-        if (e.data.type === 'responseConfig') {
-          const { value } = e.data;
+    window.addEventListener('message', async function loadConfig(e) {
+      if (e.data.type === 'responseConfig') {
+        const { value } = e.data;
 
-          try {
-            if (value) {
-              if (e.origin !== window.location.origin) {
-                const response = await fetch('configorigin.txt');
+        try {
+          if (value) {
+            if (e.origin !== window.location.origin) {
+              const response = await fetch('configorigin.txt');
 
-                let data = '';
-                if (response.status === 200) {
-                  data = await response.text();
-                }
-
-                if (!data.split('\n').includes(e.origin + '')) {
-                  console.warn(`Config file requested to be loaded by origin ${e.origin}. Please include this origin inside lib/ui/configorigin.txt to allow it to request config files.`);
-                  return;
-                }
+              let data = '';
+              if (response.status === 200) {
+                data = await response.text();
               }
 
-              await loadScript(e.data.value, 'Config script could not be loaded');
-              window.removeEventListener('message', loadConfig);
+              if (!data.split('\n').includes(e.origin + '')) {
+                console.warn(`Config file requested to be loaded by origin ${e.origin}. Please include this origin inside lib/ui/configorigin.txt to allow it to request config files.`);
+                return;
+              }
             }
-          } finally {
-            resolve();
-          }
-        }
-      });
 
-      window.parent.postMessage({
-        type: 'requestConfig',
-        id: parseInt(getHashParams('id'), 10),
-      }, '*');
-    }
+            await loadScript(e.data.value, 'Config script could not be loaded');
+            window.removeEventListener('message', loadConfig);
+          }
+        } finally {
+          resolve();
+        }
+      }
+    });
+
+    window.parent.postMessage({
+      type: 'requestConfig',
+      id: parseInt(getHashParams('id'), 10),
+    }, '*');
   });
 
 export default loadScript;
