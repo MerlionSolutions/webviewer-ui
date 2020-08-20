@@ -23,7 +23,7 @@ export default store => evt => {
     const savedSig = _.find(savedSigs, sig => sig.CustomData.type === sigwigType && sig.Author === currUser);
     if (savedSig) {
       const sig = annotManager.getAnnotationCopy(savedSig);
-      sig.CustomData = _.cloneDeep(savedSig.CustomData);
+      sig.CustomData = _.omit(_.cloneDeep(savedSig.CustomData), ['corrId']);
 
       sig.CustomData.sigWigId = id;
       sig.CustomData.widgetId = id;
