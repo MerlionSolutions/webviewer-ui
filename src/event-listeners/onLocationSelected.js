@@ -2,6 +2,7 @@ import core from 'core';
 import { isTabletOrMobile } from 'helpers/device';
 import actions from 'actions';
 import selectors from 'selectors';
+import _ from 'lodash';
 
 export default store => evt => {
   const signatureTool = core.getTool('AnnotationCreateSignature');
@@ -40,6 +41,25 @@ export default store => evt => {
         }
       }, 100));
     } else {
+      const disableOnetimeListeners = () => {
+        signatureTool.off('annotationAdded', onAnnotationAdded);
+        signatureTool.off('signatureSaved', onAnnotationAdded);
+      };
+      const onAnnotationAdded = sigs => {
+        const sig = _.head(_.castArray(sigs));
+        sig.CustomData.type = sigwigType;
+        sig.CustomData.sigWigId = id;
+        sig.CustomData.widgetId = id;
+        sig.setCustomData('widgetId', id);
+        signatureTool.setSignature(sig);
+        signatureTool.off('signatureModalClosed', disableOnetimeListeners);
+      };
+
+      
+      signatureTool.one('annotationAdded', onAnnotationAdded);
+      signatureTool.one('signatureSaved', onAnnotationAdded);
+
+      signatureTool.one('signatureModalClosed', disableOnetimeListeners);
       return store.dispatch(actions.openSignatureModal(sigwigType ? sigwigType : 'signature', sigWig.Id));
     }
   }
