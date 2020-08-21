@@ -164,9 +164,9 @@ const SignatureModal = () => {
               : 'space-between',
           }}
         >
-          {/* {!isSaveSignatureDisabled && ( */}
-          <div className="signature-save" data-element="saveSignatureButton">
-            {/* <input
+          {!isSaveSignatureDisabled && (
+            <div className="signature-save" data-element="saveSignatureButton">
+              <input
                 id="default-signature"
                 type="checkbox"
                 checked={saveSignature}
@@ -174,9 +174,9 @@ const SignatureModal = () => {
               />
               <label htmlFor="default-signature">
                 {(sigType === 'signature') ? t('option.signatureModal.saveSignature') : 'Save Initials'}
-              </label> */}
-          </div>
-          {/* )} */}
+              </label>
+            </div>
+          )}
           <div className="signature-create" onClick={createSignature}>
             {sigType === 'signature' ? 'Accept and Create Signature' : 'Accept and Create Initials'}
           </div>
