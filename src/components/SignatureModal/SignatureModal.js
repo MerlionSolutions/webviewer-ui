@@ -169,7 +169,8 @@ const SignatureModal = () => {
               <input
                 id="default-signature"
                 type="checkbox"
-                checked={saveSignature}
+                checked
+                readOnly
                 onChange={toggleSaveSignature}
               />
               <label htmlFor="default-signature">

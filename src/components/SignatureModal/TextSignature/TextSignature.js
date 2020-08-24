@@ -119,6 +119,7 @@ const TextSignature = ({
 
   useEffect(() => {
     if (isTabPanelSelected) {
+      setValue('');
       inputRef.current?.focus();
 
       if (isIOS) {
@@ -128,6 +129,13 @@ const TextSignature = ({
       }
     }
   }, [isTabPanelSelected]);
+
+  useEffect(() => {
+    if (isModalOpen && !clickedSigWidgetId) {
+      setValue('');
+    }
+
+  },[isModalOpen, clickedSigWidgetId]);
 
   const handleInputChange = e => {
     const value = e.target.value;
