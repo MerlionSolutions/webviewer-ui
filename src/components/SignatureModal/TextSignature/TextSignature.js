@@ -49,12 +49,7 @@ const TextSignature = ({
         const displayAuthor = core.getDisplayAuthor(sigWidget);
         // console.log('core.getDisplayAuthor', displayAuthor);
         if (displayAuthor) {
-          if (sigWidget?.CustomData.type === 'initials') {
-            const inits = displayAuthor.match(/\b(\w)/g);
-            setValue(inits.join(' '));
-          } else {
-            setValue(displayAuthor);
-          }
+          setValue(displayAuthor);
         }
       }
     }
