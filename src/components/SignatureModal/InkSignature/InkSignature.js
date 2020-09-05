@@ -37,17 +37,9 @@ const InkSignature = ({
     signatureTool.setSignatureCanvas(canvas);
     const multiplier = window.utils.getCanvasMultiplier();
     canvas.getContext('2d').scale(multiplier, multiplier);
+    signatureTool.on('signatureModalClosed', () => clearCanvas());
+    signatureTool.on('annotationAdded', () => clearCanvas());
   }, []);
-
-  useEffect(() => {
-    const signatureTool = core.getTool('AnnotationCreateSignature');
-
-    signatureTool.on('annotationAdded', annot => {
-      if (annot.Id === annotIdRef.current) {
-        clearCanvas();
-      }
-    });
-  }, [clearCanvas]);
 
   useEffect(() => {
     if (isModalOpen && isTabPanelSelected) {

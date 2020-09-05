@@ -39,6 +39,16 @@ const TextSignature = ({
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
 
+  useEffect(() => {
+    const signatureTool = core.getTool('AnnotationCreateSignature');
+    // const canvas = canvasRef.current;
+
+    // signatureTool.setSignatureCanvas(canvas);
+    // const multiplier = window.utils.getCanvasMultiplier();
+    // canvas.getContext('2d').scale(multiplier, multiplier);
+    signatureTool.on('signatureModalClosed', () => setValue(''));
+    signatureTool.on('annotationAdded', () => setValue(''));
+  }, []);
 
   // set 
   useEffect(() => {
@@ -64,6 +74,8 @@ const TextSignature = ({
       setActiveIndex(0);
     }
   }, [activeIndex, fonts]);
+
+
 
   const setSignature = useCallback(() => {
     const signatureTool = core.getTool('AnnotationCreateSignature');
@@ -133,6 +145,8 @@ const TextSignature = ({
     const value = e.target.value;
     setValue(value);
   };
+
+  
 
   return (
     <div className="text-signature">
