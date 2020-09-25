@@ -39,6 +39,13 @@ const TextSignature = ({
   const canvasRef = useRef();
   const textDivsRef = useRef([]);
 
+  useEffect(() => {
+    const signatureTool = core.getTool('AnnotationCreateSignature');
+    signatureTool.on('signatureModalClosed', () => setValue(() => ''));
+    signatureTool.on('signatureSaved', () => {
+      setTimeout(() => setValue(() => ''), 1000);
+    });
+  }, []);
 
   // set 
   useEffect(() => {
