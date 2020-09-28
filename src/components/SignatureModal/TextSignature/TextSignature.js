@@ -47,7 +47,7 @@ const TextSignature = ({
     });
   }, []);
 
-  // set 
+  // set
   useEffect(() => {
     if (clickedSigWidgetId) {
       const sigWidget = core.getAnnotationById(clickedSigWidgetId);
@@ -116,7 +116,7 @@ const TextSignature = ({
       drawTextSignature();
       setSignature();
     }
-  }, [activeIndex, isTabPanelSelected, value, fonts, setSignature]);
+  }, [activeIndex, color, isTabPanelSelected, value, fonts, setSignature]);
 
   useEffect(() => {
     if (isModalOpen && isTabPanelSelected) {
@@ -143,7 +143,7 @@ const TextSignature = ({
 
   return (
     <div className="text-signature">
-      <select 
+      <select
         className="text-signature-select"
         onChange={evt => setColor(evt.target.value)}
       >
