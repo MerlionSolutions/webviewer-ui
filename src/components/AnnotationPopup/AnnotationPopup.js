@@ -226,6 +226,7 @@ const AnnotationPopup = () => {
         )}
         {canModify &&
           hasStyle &&
+          (!(firstAnnotation instanceof window.Annotations.StampAnnotation) || firstAnnotation.Subject === 'Signature') &&
           !isAnnotationStylePopupDisabled &&
           (!multipleAnnotationsSelected || canUngroup) &&
           firstAnnotation.ToolName !== 'CropPage' && (

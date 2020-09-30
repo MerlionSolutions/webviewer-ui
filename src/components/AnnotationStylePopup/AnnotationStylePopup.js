@@ -61,6 +61,7 @@ class AnnotationStylePopup extends React.Component {
         <StylePopup
           colorMapKey={colorMapKey}
           style={style}
+          annotation={annotation}
           isFreeText={isFreeText}
           onStyleChange={this.handleStyleChange}
         />

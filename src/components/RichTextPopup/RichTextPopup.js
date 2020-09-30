@@ -197,6 +197,7 @@ const RichTextPopup = () => {
             colorMapKey="freeText"
             color={format.color}
             property="TextColor"
+            annotation={annotationRef.current}
             onStyleChange={handleColorChange}
           />
         )}
