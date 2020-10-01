@@ -27,13 +27,15 @@ class StylePopup extends React.PureComponent {
     isFontSizeSliderDisabled: PropTypes.bool,
     isStyleOptionDisabled: PropTypes.bool,
     isStylePopupDisabled: PropTypes.bool,
+    annotation: PropTypes.object,
   };
 
   renderColorPalette = () => {
-    const { style, onStyleChange, currentPalette, colorMapKey } = this.props;
+    const { style, onStyleChange, currentPalette, colorMapKey, annotation } = this.props;
 
     return (
       <ColorPalette
+        annotation={annotation}
         color={style[currentPalette]}
         property={currentPalette}
         onStyleChange={onStyleChange}

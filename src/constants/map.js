@@ -241,9 +241,9 @@ const map = {
   },
   stamp: {
     icon: 'ic_annotation_stamp_black_24px',
-    iconColor: null,
-    currentPalette: null,
-    availablePalettes: [],
+    iconColor: 'StrokeColor',
+    currentPalette: 'StrokeColor',
+    availablePalettes: ['StrokeColor'],
     toolNames: [
       'AnnotationCreateStamp',
       'AnnotationCreateRubberStamp',

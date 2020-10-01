@@ -11,6 +11,26 @@ import './ColorPalette.scss';
 
 const dataElement = 'colorPalette';
 
+const loadImg = async url => new Promise(res => {
+  const img = new window.Image();
+
+  img.addEventListener('load', () => res(img));
+  img.src = url;
+});
+
+export const drawImageOnCanvas = async url => {
+  const image = await loadImg(url);
+  const canvas = document.createElement('canvas');
+
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext('2d');
+
+  context.drawImage(image, 0, 0);
+
+  return { canvas, context, image };
+};
+
 class ColorPalette extends React.PureComponent {
   static propTypes = {
     property: PropTypes.string.isRequired,
@@ -18,6 +38,7 @@ class ColorPalette extends React.PureComponent {
     onStyleChange: PropTypes.func.isRequired,
     colorMapKey: PropTypes.string.isRequired,
     overridePalette: PropTypes.object,
+    annotation: PropTypes.object,
   };
 
   defaultPalette = [
@@ -55,8 +76,31 @@ class ColorPalette extends React.PureComponent {
     const { property, onStyleChange } = this.props;
     const bg = e.target.style.backgroundColor; // rgb(r, g, b);
     const rgba = bg ? bg.slice(bg.indexOf('(') + 1, -1).split(',') : [0, 0, 0, 0];
-    const color = new window.Annotations.Color(rgba[0], rgba[1], rgba[2], rgba[3]);
-    onStyleChange(property, color);
+    if (this.props.annotation instanceof window.Annotations.StampAnnotation) {
+      drawImageOnCanvas(this.props.annotation.ImageData).then(({ canvas, context }) => {
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const { data } = imageData;
+        // Loop over each pixel, where i is the position of the red, i + 1 is green, i + 2 is blue, and i + 3 is alpha (transparency), and all are 0-255
+        for (let i = 0; i < data.length; i += 4) {
+          // Skip transparent pixels
+          if (data[i + 3] === 0) {
+            continue;
+          }
+
+          data[i] = rgba[0];
+          data[i + 1] = rgba[1];
+          data[i + 2] = rgba[2];
+        }
+        context.putImageData(imageData, 0, 0);
+        this.props.annotation.ImageData = canvas.toDataURL('image/png');
+        const annotManager = window.docViewer.getAnnotationManager();
+        annotManager.updateAnnotation(this.props.annotation);
+        annotManager.redrawAnnotation(this.props.annotation);
+      });
+    } else {
+      const color = new window.Annotations.Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+      onStyleChange(property, color);
+    }
   };
 
   renderTransparencyCell = bg => {
@@ -127,7 +171,9 @@ class ColorPalette extends React.PureComponent {
 
   render() {
     const { overridePalette, colorMapKey } = this.props;
-    const palette = overridePalette?.[colorMapKey] || overridePalette?.global || this.defaultPalette;
+    const palette = this.props.annotation instanceof window.Annotations.StampAnnotation
+      ? ['#4B92DB', '#000000']
+      : overridePalette?.[colorMapKey] || overridePalette?.global || this.defaultPalette;
 
     return (
       <div className="ColorPalette" data-element={dataElement}>
