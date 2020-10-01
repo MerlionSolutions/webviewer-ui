@@ -94,8 +94,8 @@ const TextSignature = ({
       ].getBoundingClientRect();
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      canvas.width = (width * multiplier) + 50;
-      canvas.height = (height * multiplier) + 25;
+      canvas.width = (width * multiplier) + 100;
+      canvas.height = (height * multiplier) + 55;
     };
     const setFont = () => {
       ctx.fillStyle = color;
