@@ -30,7 +30,7 @@ export default store => evt => {
       sig.CustomData.widgetId = id;
       sig.setCustomData('widgetId', id);
       signatureTool.setSignature(sig);
-      
+
       return new Promise(res => setTimeout(() => {
         if (!signatureTool.isEmptySignature()) {
           signatureTool.one('annotationAdded', annot => {
@@ -41,11 +41,11 @@ export default store => evt => {
         }
       }, 100));
     } else {
-      const disableOnetimeListeners = () => {
+      const disableOnetimeListeners = _.once(() => {
         signatureTool.off('annotationAdded', onAnnotationAdded);
         signatureTool.off('signatureSaved', onAnnotationAdded);
-      };
-      const onAnnotationAdded = sigs => {
+      });
+      const onAnnotationAdded = _.once(sigs => {
         const sig = _.head(_.castArray(sigs));
         sig.CustomData.type = sigwigType;
         sig.CustomData.sigWigId = id;
@@ -53,18 +53,17 @@ export default store => evt => {
         sig.setCustomData('widgetId', id);
         signatureTool.setSignature(sig);
         signatureTool.off('signatureModalClosed', disableOnetimeListeners);
-      };
+      });
 
-      
-      signatureTool.one('annotationAdded', onAnnotationAdded);
-      signatureTool.one('signatureSaved', onAnnotationAdded);
+      signatureTool.on('annotationAdded', onAnnotationAdded);
+      signatureTool.on('signatureSaved', onAnnotationAdded);
 
-      signatureTool.one('signatureModalClosed', disableOnetimeListeners);
+      signatureTool.on('signatureModalClosed', disableOnetimeListeners);
       return store.dispatch(actions.openSignatureModal(sigwigType ? sigwigType : 'signature', sigWig.Id));
     }
   }
 
-  
+
   if (!signatureTool.isEmptySignature()) {
     signatureTool.addSignature();
   } else {
