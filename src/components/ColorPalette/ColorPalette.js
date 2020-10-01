@@ -96,6 +96,7 @@ class ColorPalette extends React.PureComponent {
         const annotManager = window.docViewer.getAnnotationManager();
         annotManager.updateAnnotation(this.props.annotation);
         annotManager.redrawAnnotation(this.props.annotation);
+        annotManager.trigger('annotationChanged', [[this.props.annotation], 'modify', { imported: false, isUndoRedo: false }]);
       });
     } else {
       const color = new window.Annotations.Color(rgba[0], rgba[1], rgba[2], rgba[3]);
