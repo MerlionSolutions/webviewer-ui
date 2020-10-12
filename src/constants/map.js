@@ -37,7 +37,7 @@ const map = {
     icon: 'ic_annotation_freetext_black_24px',
     iconColor: 'TextColor',
     currentPalette: 'TextColor',
-    availablePalettes: ['TextColor', 'StrokeColor', 'FillColor'],
+    availablePalettes: ['TextColor'],
     toolNames: ['AnnotationCreateFreeText'],
     annotationCheck: annotation =>
       annotation instanceof window.Annotations.FreeTextAnnotation &&

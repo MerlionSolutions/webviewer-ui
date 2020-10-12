@@ -46,6 +46,7 @@ const AnnotationPopup = () => {
   const [firstAnnotation, setFirstAnnotation] = useState(null);
   const [canModify, setCanModify] = useState(false);
   const [isStylePopupOpen, setIsStylePopupOpen] = useState(false);
+  const editorJustBlurred = useRef(false);
   const popupRef = useRef();
 
   useOnClickOutside(popupRef, e => {
@@ -73,7 +74,7 @@ const AnnotationPopup = () => {
       }
     };
 
-    if (firstAnnotation || isStylePopupOpen) {
+    if (!editorJustBlurred.current && (firstAnnotation || isStylePopupOpen)) {
       setPopupPositionAndShow();
     }
 
@@ -102,6 +103,14 @@ const AnnotationPopup = () => {
       }
     };
 
+    const onEditorBlur = () => {
+      editorJustBlurred.current = true;
+      setTimeout(() => {
+        editorJustBlurred.current = false;
+      }, 0);
+    };
+
+    core.addEventListener('editorBlur', onEditorBlur);
     core.addEventListener('mouseLeftUp', onMouseLeftUp);
     core.addEventListener('annotationChanged', onAnnotationChanged);
     core.addEventListener(
@@ -109,6 +118,7 @@ const AnnotationPopup = () => {
       onUpdateAnnotationPermission,
     );
     return () => {
+      core.removeEventListener('editorBlur', onEditorBlur);
       core.removeEventListener('mouseLeftUp', onMouseLeftUp);
       core.removeEventListener('annotationChanged', onAnnotationChanged);
       core.removeEventListener(
@@ -341,11 +351,11 @@ const AnnotationPopup = () => {
 
   return (
     isMobile() ?
-    annotationPopup
-    :
-    <Draggable cancel=".Button, .cell, .sliders-container svg">
-      {annotationPopup}
-    </Draggable>
+      annotationPopup
+      :
+      <Draggable cancel=".Button, .cell, .sliders-container svg">
+        {annotationPopup}
+      </Draggable>
   );
 };
 
